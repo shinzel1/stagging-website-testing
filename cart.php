@@ -1,7 +1,7 @@
 <?php
 include 'includes/header.php';
 // Load the .env file
-loadEnv(__DIR__ . '/../.env');
+loadEnv(__DIR__ . '/../.env.test');
 
 // Access environment variables
 $host = getenv('DB_HOST');

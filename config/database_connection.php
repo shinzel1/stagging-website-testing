@@ -1,6 +1,6 @@
 <?php
 require_once('config.php');
-loadEnv(__DIR__ . '/../../.env');
+loadEnv(__DIR__ . '/../../.env.test');
 
 // Access environment variables
 $host = getenv('DB_HOST');
