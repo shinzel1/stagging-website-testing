@@ -1,19 +1,32 @@
-<section
-    style="background-image: url('assets/images/meghan-holmes-buWcS7G1_28-unsplash.jpg'); background-repeat: no-repeat; background-size: cover;">
+<style>
+    .ProductImage {
+        width: 13rem;
+    }
+    .wishlist-active {
+        background-color: #e02725;
+        color: white;
+    }
+</style>
+
+<section class="pt-5"
+    style="background-image: url('assets/images/victor-freitas-WvDYdXDzkhs-unsplash.jpg'); background-repeat: no-repeat; background-size: cover;">
+
     <div class="container-lg">
         <div class="row">
             <div class="col-lg-6 pt-5 mt-5">
-                <h2 class="display-1 ls-1">
-                    <span class="fw-bold" style="color:#da2d1c">Fuel Your Strength</span> <span style="color:white"> –
+                <h2 class="display-1 ls-1 text-white">
+                    <span class="fw-bold">Fuel Your Strength</span> <span> –
                         Premium Supplements for Every Workout. </span>
 
                 </h2>
                 <!-- <p class="fs-4">Complete Nurition Store</p> -->
-                <div class="d-flex gap-3">
-                    <a href="#" class="btn text-uppercase fs-6 rounded-pill px-4 py-3 mt-3"
-                        style="background-color:#3c2c93;color:white">Start
+                <div class="text-white">
+                    <a href="products.php"
+                        class="btn btn-outline-white text-uppercase fs-6 rounded-pill px-4 py-3 mt-3 fw-bold">Start
                         Shopping</a>
-                    <a href="#" class="btn btn-dark text-uppercase fs-6 rounded-pill px-4 py-3 mt-3">Join Now</a>
+                    <a href="login.php"
+                        class="btn btn-outline-white text-uppercase fs-6 rounded-pill px-4 py-3 mt-3 fw-bold">Join
+                        Now</a>
                 </div>
                 <div class="row my-5">
                     <?php
@@ -24,7 +37,7 @@
                     ];
                     foreach ($stats as $stat): ?>
                         <div class="col">
-                            <div class="row text-dark">
+                            <div class="row text-white">
                                 <div class="col-auto">
                                     <p class="fs-1 fw-bold lh-sm mb-0"><?= $stat['value']; ?></p>
                                 </div>
@@ -41,9 +54,9 @@
         <div class="row row-cols-1 row-cols-sm-3 row-cols-lg-3 g-0 justify-content-center">
             <?php
             $cards = [
-                ['bg' => 'primary', 'icon' => '#fresh', 'title' => 'Eco-Friendly', 'text' => 'Use biodegradable or recyclable packaging and clearly state it'],
-                ['bg' => 'secondary', 'icon' => '#organic', 'title' => 'Natural Ingredients', 'text' => 'Our protein powders are sourced from grass-fed cows'],
-                ['bg' => 'danger', 'icon' => '#delivery', 'title' => 'Fast Shipping', 'text' => 'Offers shipping in new Delhi and NCR regions']
+                ['bg' => 'green', 'icon' => '#fresh', 'title' => 'Eco-Friendly', 'text' => 'Use biodegradable or recyclable packaging and clearly state it.'],
+                ['bg' => 'grey', 'icon' => '#organic', 'title' => 'All Naturals', 'text' => 'Our protein powders are sourced from grass-fed cows.'],
+                ['bg' => 'orange', 'icon' => '#delivery', 'title' => 'Fast Shipping', 'text' => 'Offers shipping in New Delhi and Delhi-NCR regions.']
             ];
             foreach ($cards as $card): ?>
                 <div class="col">
@@ -77,10 +90,10 @@
                     <h2 class="section-title">Category</h2>
 
                     <div class="d-flex align-items-center">
-                        <a href="#" class="btn btn-primary me-2">View All</a>
+                        <a href="products.php" class="btn btn-secondary me-2">View All</a>
                         <div class="swiper-buttons">
-                            <button class="swiper-prev category-carousel-prev btn btn-yellow">❮</button>
-                            <button class="swiper-next category-carousel-next btn btn-yellow">❯</button>
+                            <button class="swiper-prev category-carousel-prev btn btn-secondary">❮</button>
+                            <button class="swiper-next category-carousel-next btn btn-secondary">❯</button>
                         </div>
                     </div>
                 </div>
@@ -90,41 +103,40 @@
         <div class="row">
             <div class="col-md-12">
 
+                <?php
+                require_once("config/database_connection.php");
+
+                try {
+                    $query = "SELECT name, title, description, image FROM categories";
+                    $stmt = $pdo->prepare($query);
+                    $stmt->execute();
+                    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                } catch (PDOException $e) {
+                    die("Failed to fetch categories: " . $e->getMessage());
+                }
+
+                ?>
+
                 <div class="category-carousel swiper">
                     <div class="swiper-wrapper">
                         <?php
-                        // Define categories as an array
-                        $categories = [
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Whey protein'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Isolate'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Plant protein'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Preworkout'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'BCAA'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'EAA'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Weight gainers'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Mass gainers'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Fat burner'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'L carnitine'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Creatine'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'L arginine'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Glutamine'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Protein bars / Nutrition bars'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Citrulline'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Testosterone'],
-                            ['image' => 'assets/images/scoop.jpg', 'title' => 'Peanut butter'],
-                        ];
-                        ;
-
                         // Loop through each category to generate the slides
                         foreach ($categories as $category): ?>
-                            <a href="category.html" class="nav-link swiper-slide text-center">
-                                <img src="<?= $category['image']; ?>" class="rounded-circle" alt="Category Thumbnail">
-                                <h4 class="fs-6 mt-3 fw-normal category-title"><?= $category['title']; ?></h4>
+                            <a href="products.php?search=<?= $category['title']; ?>"
+                                class="nav-link swiper-slide text-center">
+                                <img src="<?= $category['image']; ?>" class="rounded-circle categoryRoundImage"
+                                    alt="Category Thumbnail">
+                                <h4 class="fs-6 mt-3 fw-normal category-title"><?= $category['name']; ?></h4>
                             </a>
                         <?php endforeach; ?>
                     </div>
                 </div>
 
+                <style>
+                    .categoryRoundImage {
+                        max-height: 14rem;
+                    }
+                </style>
             </div>
         </div>
     </div>
@@ -136,7 +148,7 @@
                 <div class="section-header d-flex flex-wrap justify-content-between my-4">
                     <h2 class="section-title">Best Selling Products</h2>
                     <div class="d-flex align-items-center">
-                        <a href="all-products.php" class="btn btn-primary rounded-1">View All</a>
+                        <a href="products.php" class="btn btn-secondary rounded-1">View All</a>
                     </div>
                 </div>
             </div>
@@ -147,63 +159,37 @@
                     class="product-grid row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 row-cols-xl-4 row-cols-xxl-5">
                     <?php
                     // Sample array of products
-                    $products = [
-                        [
-                            "title" => "MuscleTech NitroTech Performance Series",
-                            "image" => "assets/images/products/nitro-tech-ripped-chocolate-fudge-brownie-1-8kg-1.png",
-                            "price" => 18.00,
-                            "original_price" => 24.00,
-                            "rating" => 4.5,
-                            "reviews" => 222
-                        ],
-                        [
-                            "title" => "Pol nutrition",
-                            "image" => "assets/images/products/pole-whey-protein.png",
-                            "price" => 50.00,
-                            "original_price" => 54.00,
-                            "rating" => 4.5,
-                            "reviews" => 41
-                        ],
-                        [
-                            "title" => "GNC Pro Performance Creatine Monohydrate",
-                            "image" => "assets/images/products/gnc-creatine.jpg",
-                            "price" => 12.00,
-                            "original_price" => 14.00,
-                            "rating" => 4.5,
-                            "reviews" => 32
-                        ],
-                        [
-                            "title" => "Dymatize ISO100 Hydrolyzed - 100% Whey Protein Isolate",
-                            "image" => "assets/images/products/pole-whey-protein.png",
-                            "price" => 18.00,
-                            "original_price" => 24.00,
-                            "rating" => 4.5,
-                            "reviews" => 222
-                        ],
-                        [
-                            "title" => "One Science",
-                            "image" => "assets/images/products/pole-whey-protein.png",
-                            "price" => 18.00,
-                            "original_price" => 24.00,
-                            "rating" => 4.5,
-                            "reviews" => 222
-                        ]
-                    ];
-
+                    try {
+                        $stmt = $pdo->query("SELECT * FROM products ORDER BY created_at DESC LIMIT 0,5");
+                        $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    } catch (PDOException $e) {
+                        $error = 'Error: ' . $e->getMessage();
+                    }
                     // Loop through products and display them
                     foreach ($products as $product) {
                         ?>
                         <div class="col">
-                            <div class="product-item">
-                                <figure>
-                                    <a href="product-details.php?title=<?= urlencode($product['title']); ?>"
-                                        title="<?= htmlspecialchars($product['title']); ?>">
-                                        <img src="<?= htmlspecialchars($product['image']); ?>"
-                                            alt="<?= htmlspecialchars($product['title']); ?>" class="tab-image">
-                                    </a>
-                                </figure>
+                            <div class="product-item position-relative">
+                                <a href="product-details.php?id=<?= urlencode($product['id']); ?>"
+                                    title="<?= htmlspecialchars($product['name']); ?>">
+                                    <figure class="position-relative">
+
+                                        <img src="<?= htmlspecialchars($product['image_url']); ?>"
+                                            alt="<?= htmlspecialchars($product['name']); ?>" class="tab-image">
+
+
+                                        <!-- Out of Stock Overlay -->
+                                        <?php if ($product['quantity'] == 0): ?>
+                                            <div class="out-of-stock-overlay">
+                                                <img src="assets/images/sold_out.png" alt="Out of Stock"
+                                                    class="out-of-stock-img">
+                                            </div>
+                                        <?php endif; ?>
+                                    </figure>
+                                </a>
+
                                 <div class="d-flex flex-column text-center">
-                                    <h3 class="fs-6 fw-normal"><?= htmlspecialchars($product['title']); ?></h3>
+                                    <h3 class="fs-6 fw-normal"><?= htmlspecialchars($product['name']); ?></h3>
                                     <div>
                                         <span class="rating">
                                             <?php
@@ -223,9 +209,9 @@
                                         <span>(<?= htmlspecialchars($product['reviews']); ?>)</span>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center gap-2">
-                                        <del>$<?= number_format($product['original_price'], 2); ?></del>
+                                        <del>₹<?= number_format($product['original_price'], 2); ?></del>
                                         <span
-                                            class="text-dark fw-semibold">$<?= number_format($product['price'], 2); ?></span>
+                                            class="text-dark fw-semibold">₹<?= number_format($product['price'], 2); ?></span>
                                         <span
                                             class="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">
                                             <?= round((($product['original_price'] - $product['price']) / $product['original_price']) * 100); ?>%
@@ -234,26 +220,33 @@
                                     </div>
                                     <div class="button-area p-3 pt-0">
                                         <div class="row g-1 mt-2">
-                                            <div class="col-3">
-                                                <input type="number" name="quantity"
-                                                    class="form-control border-dark-subtle input-number quantity" value="1"
-                                                    min="1">
-                                            </div>
+                                            <div class="col-3"></div>
                                             <div class="col-7">
-                                                <a href="add-to-cart.php?title=<?= urlencode($product['title']); ?>"
-                                                    class="btn btn-primary rounded-1 p-2 fs-7 btn-cart">
+                                                <span
+                                                    class="btn rounded-1 p-2 fs-7 btn-cart add-to-cart-btn  btn-add-to-cart <?= $product['quantity'] == 0 ? 'disabled' : ''; ?>"
+                                                    data-product-id="<?= htmlspecialchars($product['id']) ?>">
                                                     <svg width="18" height="18">
                                                         <use xlink:href="#cart"></use>
                                                     </svg> Add to Cart
-                                                </a>
+                                                </span>
                                             </div>
+                                            <?php
+                                            // Check if product is in the wishlist
+                                            $user_id = $_SESSION['user_id'] ?? null;
+                                            $product_id = $product['id'];
+
+                                            $wishlist_check = $pdo->prepare("SELECT id FROM wishlist WHERE user_id = ? AND product_id = ?");
+                                            $wishlist_check->execute([$user_id, $product_id]);
+                                            $is_wishlisted = $wishlist_check->fetch() ? true : false;
+                                            ?>
+
                                             <div class="col-2">
-                                                <a href="wishlist.php?title=<?= urlencode($product['title']); ?>"
-                                                    class="btn btn-outline-dark rounded-1 p-2 fs-6">
+                                                <span class="btn btn-secondary rounded-1 p-2 fs-6 wishlist-btn <?= $is_wishlisted ? 'wishlist-active' : '' ?>"
+                                                    data-product-id="<?= $product_id ?>">
                                                     <svg width="18" height="18">
                                                         <use xlink:href="#heart"></use>
                                                     </svg>
-                                                </a>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -263,13 +256,31 @@
                         <?php
                     }
                     ?>
+
                 </div>
             </div>
         </div>
     </div>
 </section>
 
+<style>
+    .out-of-stock-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.5);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 
+    .out-of-stock-img {
+        width: 10em;
+        height: auto;
+    }
+</style>
 <section class="py-3">
     <div class="container-lg">
         <div class="row">
@@ -282,7 +293,7 @@
                             "title" => "Items on SALE",
                             "description" => "Discounts up to 30%",
                             "image" => "assets/images/comp/whey-gnc-pol-muscle-punch.jpeg",
-                            "link" => "#",
+                            "link" => "/nutrizone/products.php",
                             "bg_class" => "bg-info",
                             "block_class" => "block-1"
                         ],
@@ -290,7 +301,7 @@
                             "title" => "Combo offers",
                             "description" => "Discounts up to 50%",
                             "image" => "assets/images/comp/oats.jpeg",
-                            "link" => "#",
+                            "link" => "/nutrizone/products.php",
                             "bg_class" => "bg-success-subtle",
                             "block_class" => "block-2"
                         ],
@@ -298,7 +309,7 @@
                             "title" => "Discount Coupons",
                             "description" => "Discounts up to 40%",
                             "image" => "assets/images/comp/aleksander-saks-lVZGEyL_j40-unsplash.jpg",
-                            "link" => "#",
+                            "link" => "/nutrizone/products.php",
                             "bg_class" => "bg-danger",
                             "block_class" => "block-3"
                         ]
@@ -328,63 +339,6 @@
     </div>
 </section>
 
-
-<?php
-// Array of products
-$products = [
-    [
-        "title" => "MuscleTech NitroTech Performance Series",
-        "image" => "assets/images/products/nitro-tech-ripped-chocolate-fudge-brownie-1-8kg-1.png",
-        "price" => 18.00,
-        "original_price" => 24.00,
-        'discounted_price' => 18.00,
-        'discount' => '10% OFF',
-        "rating" => 4.5,
-        "reviews" => 222
-    ],
-    [
-        "title" => "Pol nutrition",
-        "image" => "assets/images/products/pole-whey-protein.png",
-        "price" => 50.00,
-        "original_price" => 54.00,
-        'discounted_price' => 18.00,
-        'discount' => '10% OFF',
-        "rating" => 4.5,
-        "reviews" => 41
-    ],
-    [
-        "title" => "GNC Pro Performance Creatine Monohydrate",
-        "image" => "assets/images/products/gnc-creatine.jpg",
-        "price" => 12.00,
-        "original_price" => 14.00,
-        'discounted_price' => 18.00,
-        'discount' => '10% OFF',
-        "rating" => 4.5,
-        "reviews" => 32
-    ],
-    [
-        "title" => "Dymatize ISO100 Hydrolyzed - 100% Whey Protein Isolate",
-        "image" => "assets/images/products/pole-whey-protein.png",
-        "price" => 18.00,
-        "original_price" => 24.00,
-        'discounted_price' => 18.00,
-        'discount' => '10% OFF',
-        "rating" => 4.5,
-        "reviews" => 222
-    ],
-    [
-        "title" => "One Science",
-        "image" => "assets/images/products/pole-whey-protein.png",
-        "price" => 18.00,
-        "original_price" => 24.00,
-        'discounted_price' => 18.00,
-        'discount' => '10% OFF',
-        "rating" => 4.5,
-        "reviews" => 222
-    ]
-];
-?>
-
 <section id="featured-products" class="products-carousel">
     <div class="container-lg overflow-hidden py-5">
         <div class="row">
@@ -392,10 +346,10 @@ $products = [
                 <div class="section-header d-flex flex-wrap justify-content-between my-4">
                     <h2 class="section-title">Featured products</h2>
                     <div class="d-flex align-items-center">
-                        <a href="#" class="btn btn-primary me-2">View All</a>
+                        <a href="products.php" class="btn btn-secondary me-2">View All</a>
                         <div class="swiper-buttons">
-                            <button class="swiper-prev products-carousel-prev btn btn-primary">❮</button>
-                            <button class="swiper-next products-carousel-next btn btn-primary">❯</button>
+                            <button class="swiper-prev products-carousel-prev btn btn-secondary">❮</button>
+                            <button class="swiper-next products-carousel-next btn btn-secondary">❯</button>
                         </div>
                     </div>
                 </div>
@@ -406,61 +360,83 @@ $products = [
                 <div class="swiper">
                     <div class="swiper-wrapper">
                         <?php foreach ($products as $product): ?>
-                            <div class="product-item swiper-slide">
-                                <figure>
-                                    <a href="index.html" title="<?= htmlspecialchars($product['title']) ?>">
-                                        <img src="<?= htmlspecialchars($product['image']) ?>" alt="Product Thumbnail"
-                                            class="tab-image">
-                                    </a>
-                                </figure>
+                            <div class="product-item position-relative swiper-slide">
+                                <a href="product-details.php?id=<?= urlencode($product['id']); ?>"
+                                    title="<?= htmlspecialchars($product['name']); ?>">
+                                    <figure class="position-relative">
+
+                                        <img src="<?= htmlspecialchars($product['image_url']); ?>"
+                                            alt="<?= htmlspecialchars($product['name']); ?>" class="tab-image">
+                                        <!-- Out of Stock Overlay -->
+                                        <?php if ($product['quantity'] == 0): ?>
+                                            <div class="out-of-stock-overlay">
+                                                <img src="assets/images/sold_out.png" alt="Out of Stock"
+                                                    class="out-of-stock-img">
+                                            </div>
+                                        <?php endif; ?>
+                                    </figure>
+                                </a>
+
                                 <div class="d-flex flex-column text-center">
-                                    <h3 class="fs-6 fw-normal"><?= htmlspecialchars($product['title']) ?></h3>
+                                    <h3 class="fs-6 fw-normal"><?= htmlspecialchars($product['name']); ?></h3>
                                     <div>
                                         <span class="rating">
                                             <?php
                                             $fullStars = floor($product['rating']);
-                                            $halfStar = $product['rating'] - $fullStars > 0 ? 1 : 0;
-                                            for ($i = 0; $i < $fullStars; $i++): ?>
-                                                <svg width="18" height="18" class="text-warning">
-                                                    <use xlink:href="#star-full"></use>
-                                                </svg>
-                                            <?php endfor;
-                                            if ($halfStar): ?>
-                                                <svg width="18" height="18" class="text-warning">
-                                                    <use xlink:href="#star-half"></use>
-                                                </svg>
-                                            <?php endif; ?>
+                                            $halfStar = $product['rating'] - $fullStars >= 0.5;
+                                            for ($i = 0; $i < 5; $i++) {
+                                                if ($i < $fullStars) {
+                                                    echo '<svg width="18" height="18" class="text-warning"><use xlink:href="#star-full"></use></svg>';
+                                                } elseif ($halfStar && $i == $fullStars) {
+                                                    echo '<svg width="18" height="18" class="text-warning"><use xlink:href="#star-half"></use></svg>';
+                                                } else {
+                                                    echo '<svg width="18" height="18" class="text-muted"><use xlink:href="#star-empty"></use></svg>';
+                                                }
+                                            }
+                                            ?>
                                         </span>
-                                        <span>(<?= htmlspecialchars($product['reviews']) ?>)</span>
+                                        <span>(<?= htmlspecialchars($product['reviews']); ?>)</span>
                                     </div>
                                     <div class="d-flex justify-content-center align-items-center gap-2">
-                                        <del>$<?= number_format($product['original_price'], 2) ?></del>
+                                        <del>₹<?= number_format($product['original_price'], 2); ?></del>
                                         <span
-                                            class="text-dark fw-semibold">$<?= number_format($product['discounted_price'], 2) ?></span>
+                                            class="text-dark fw-semibold">₹<?= number_format($product['price'], 2); ?></span>
                                         <span
                                             class="badge border border-dark-subtle rounded-0 fw-normal px-1 fs-7 lh-1 text-body-tertiary">
-                                            <?= htmlspecialchars($product['discount']) ?>
+                                            <?= round((($product['original_price'] - $product['price']) / $product['original_price']) * 100); ?>%
+                                            OFF
                                         </span>
                                     </div>
                                     <div class="button-area p-3 pt-0">
                                         <div class="row g-1 mt-2">
-                                            <div class="col-3">
-                                                <input type="number" name="quantity"
-                                                    class="form-control border-dark-subtle input-number quantity" value="1">
-                                            </div>
+                                            <div class="col-3"></div>
                                             <div class="col-7">
-                                                <a href="#" class="btn btn-primary rounded-1 p-2 fs-7 btn-cart">
+                                                <span
+                                                    class="btn btn-primary rounded-1 p-2 fs-7 btn-cart add-to-cart-btn  <?= $product['quantity'] == 0 ? 'disabled' : ''; ?>"
+                                                    data-product-id="<?= htmlspecialchars($product['id']) ?>">
                                                     <svg width="18" height="18">
                                                         <use xlink:href="#cart"></use>
                                                     </svg> Add to Cart
-                                                </a>
+                                                </span>
                                             </div>
+                                            <?php
+                                            // Check if product is in the wishlist
+                                            $user_id = $_SESSION['user_id'] ?? null;
+                                            $product_id = $product['id'];
+
+                                            $wishlist_check = $pdo->prepare("SELECT id FROM wishlist WHERE user_id = ? AND product_id = ?");
+                                            $wishlist_check->execute([$user_id, $product_id]);
+                                            $is_wishlisted = $wishlist_check->fetch() ? true : false;
+                                            ?>
+
                                             <div class="col-2">
-                                                <a href="#" class="btn btn-outline-dark rounded-1 p-2 fs-6">
-                                                    <svg width="18" height="18">
+                                                <span class="btn btn-secondary rounded-1 p-2 fs-6 wishlist-btn"
+                                                    data-product-id="<?= $product_id ?>">
+                                                    <svg width="18" height="18"
+                                                        class="<?= $is_wishlisted ? 'wishlist-active' : '' ?>">
                                                         <use xlink:href="#heart"></use>
                                                     </svg>
-                                                </a>
+                                                </span>
                                             </div>
                                         </div>
                                     </div>
@@ -482,6 +458,33 @@ $products = [
                                         768: { slidesPerView: 2, spaceBetween: 15 },
                                         1024: { slidesPerView: 4, spaceBetween: 20 },
                                     },
+                                });
+                            });
+                            document.addEventListener("DOMContentLoaded", function () {
+                                document.querySelectorAll(".wishlist-btn").forEach(function (btn) {
+                                    btn.addEventListener("click", function (e) {
+                                        e.preventDefault();
+                                        let productId = this.getAttribute("data-product-id");
+                                        let heartIcon = this
+
+                                        fetch("includes/wishlist_toggle.php", {
+                                            method: "POST",
+                                            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                                            body: "product_id=" + productId
+                                        })
+                                            .then(response => response.json())
+                                            .then(data => {
+                                                if (data.success) {
+                                                    if (data.wishlist_status) {
+                                                        heartIcon.classList.add("wishlist-active");
+                                                    } else {
+                                                        heartIcon.classList.remove("wishlist-active");
+                                                    }
+                                                } else {
+                                                    alert(data.message);
+                                                }
+                                            });
+                                    });
                                 });
                             });
                         </script>
@@ -518,25 +521,49 @@ $bannerDetails = [
                         </div>
                         <p><?= htmlspecialchars($bannerDetails['description']) ?></p>
                     </div>
-                    <div class="col-md-5 p-3">
-                        <form method="POST" action="submit.php">
-                            <div class="mb-3">
-                                <label for="name" class="form-label d-none">Name</label>
-                                <input type="text" class="form-control form-control-md rounded-0" name="name" id="name"
-                                    placeholder="Name" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="email" class="form-label d-none">Email</label>
-                                <input type="email" class="form-control form-control-md rounded-0" name="email"
-                                    id="email" placeholder="Email Address" required>
-                            </div>
-                            <div class="d-grid gap-2">
-                                <button type="submit" class="btn btn-primary btn-md rounded-0">Submit</button>
-                            </div>
-                        </form>
+                    <div class="col-md-5 p-5">
+
+                        <div class="d-grid gap-2">
+                            <a href="login.php" type="submit" class="btn btn-secondary btn-md rounded-0">Login</a>
+
+                            <a type="login.php" class="btn btn-primary btn-md rounded-0">Signup</a>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+<script>
+    $(document).ready(function () {
+        // Use event delegation to handle dynamically added elements
+        $(document).on("click", ".add-to-cart-btn", function (e) {
+            e.preventDefault();
+
+            const productId = $(this).data("product-id");
+            const quantity = 1; // You can make this dynamic if needed
+
+            $.ajax({
+                url: "includes/addToCart.php", // PHP backend script
+                type: "POST",
+                data: {
+                    product_id: productId,
+                    quantity: quantity
+                },
+                dataType: "json",
+                success: function (response) {
+                    if (response.status === "success") {
+                        alert(response.message); // Show success message
+                    } else {
+                        alert(response.message); // Show error message
+                    }
+                    updateCartCount(); // Refresh cart count
+
+                },
+                error: function () {
+                    alert("An error occurred. Please try again.");
+                }
+            });
+        });
+    });
+</script>

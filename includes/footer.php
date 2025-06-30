@@ -46,31 +46,8 @@
                     </div>
                 </div>
             </div>
-
             <div class="col-md-2 col-sm-6">
-                <div class="footer-menu">
-                    <h5 class="widget-title">Nutri Zone</h5>
-                    <ul class="menu-list list-unstyled">
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">Home</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">Featured Products</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">Cart</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">About us</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">Contact us </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="col-md-2 col-sm-6">
-                <div class="footer-menu">
+                <!-- <div class="footer-menu">
                     <h5 class="widget-title">Quick Links</h5>
                     <ul class="menu-list list-unstyled">
                         <li class="menu-item">
@@ -92,29 +69,40 @@
                             <a href="#" class="nav-link">Info</a>
                         </li>
                     </ul>
+                </div> -->
+            </div>
+            <div class="col-md-2 col-sm-6">
+                <div class="footer-menu">
+                    <h5 class="widget-title">Nutri Zone</h5>
+                    <ul class="menu-list list-unstyled">
+                        <li class="menu-item">
+                            <a href="/" class="nav-link">Home</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/product.php" class="nav-link">Featured Products</a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="/cart.php" class="nav-link">Cart</a>
+                        </li>
+                        <!-- <li class="menu-item">
+                            <a href="/about.php" class="nav-link">About us</a>
+                        </li> -->
+                        <li class="menu-item">
+                            <a href="/contact.php" class="nav-link">Contact us </a>
+                        </li>
+                    </ul>
                 </div>
             </div>
+
             <div class="col-md-2 col-sm-6">
                 <div class="footer-menu">
                     <h5 class="widget-title">Customer Service</h5>
                     <ul class="menu-list list-unstyled">
                         <li class="menu-item">
-                            <a href="#" class="nav-link">FAQ</a>
+                            <a href="/contact.php" class="nav-link">Contact</a>
                         </li>
                         <li class="menu-item">
-                            <a href="#" class="nav-link">Contact</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">Privacy Policy</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">Returns & Refunds</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">Cookie Guidelines</a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="#" class="nav-link">Delivery Information</a>
+                            <a href="/privacy-policy.php" class="nav-link">Privacy Policy</a>
                         </li>
                     </ul>
                 </div>
@@ -123,19 +111,21 @@
                 <div class="footer-menu">
                     <h5 class="widget-title">Subscribe Us</h5>
                     <p>Subscribe to our newsletter to get updates about our grand offers.</p>
-                    <form class="d-flex mt-3 gap-0" action="index.html">
-                        <input class="form-control rounded-start rounded-0 bg-light" type="email"
-                            placeholder="Email Address" aria-label="Email Address">
+                    <form id="newsletterForm" class="d-flex mt-3 gap-0">
+                        <input id="newsletterEmail" class="form-control rounded-start rounded-0 bg-light" type="email"
+                            placeholder="Email Address" required>
                         <button class="btn btn-dark rounded-end rounded-0" type="submit">Subscribe</button>
                     </form>
+                    <div id="newsletterMessage" class="mt-2 text-small"></div>
                 </div>
             </div>
+
 
         </div>
     </div>
 </footer>
+<script src="assets/js/swiper-bundle.min.js"></script>
 
-<script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const categorySwiper = new Swiper('.category-carousel', {
@@ -155,6 +145,36 @@
     });
 </script>
 
+<script>
+    $(document).ready(function () {
+        $('#newsletterForm').on('submit', function (e) {
+            e.preventDefault();
+            const email = $('#newsletterEmail').val().trim();
+
+            if (!email) return;
+
+            $.ajax({
+                url: 'includes/subscribe_newsletter.php',
+                method: 'POST',
+                data: { email: email },
+                dataType: 'json',
+                success: function (response) {
+                    const messageBox = $('#newsletterMessage');
+                    if (response.success) {
+                        messageBox.text(response.message).css('color', 'green');
+                        $('#newsletterEmail').val('');
+                    } else {
+                        messageBox.text(response.message).css('color', 'red');
+                    }
+                },
+                error: function () {
+                    $('#newsletterMessage').text("Something went wrong. Please try again.")
+                        .css('color', 'red');
+                }
+            });
+        });
+    });
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"

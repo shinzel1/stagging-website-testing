@@ -1,69 +1,28 @@
-It is a free HTML CSS template by https://templatesjungle.com/
-You can use this template as a starter template and start building as you require.
-
-The code is consistent and can be easily maintained as we have followed a good coding standard. We want everyone to easily understand it and modify it according to their requirement. As the main goal of providing these templates is to give you something to work on before even starting.
-
-PRO Version: https://templatesjungle.gumroad.com/l/organic-fruits-vegetable-store-html-template
-
-FREE FOR BOTH PERSONAL AND COMMERCIAL USE
-
-This HTML Template is provided by TemplatesJungle.com and is free to use in both personal and commercial projects as long as you don't remove our credit link in the footer.
-
-However, you can remove the credit link by paying for No Attribution version of the template.
-
-
-RIGHTS
-
-You are allowed to use it in your personal projects and commercial projects.
-
-You can modify and sell it to your clients.
-
-
-PROHIBITIONS
-
-You cannot remove the credit link which links back to templatesjungle.com.
-
-You are not permitted to resell or redistribute (paid or free) as it is. 
-
-You cannot use it to build premium templates, themes or any other goods to be sold on marketplaces.
-
-If you want to share the free resource in your blog, you must point it to original TemplatesJungle.com resource page. 
-
-You cannot host the download file in your website.
-
-
-SUPPORT
-
-You can contact us to report any bugs and errors in the template. We will try and fix them immediately although it's a free resource.
-
-Feel free to let us know about what you want to see in the future downloads. We will definitely give it a thought while creating our next freebie.
-
-
-CREDITS & REFERENCES
-
-https://getbootstrap.com/
-
-Stock Photos
-https://unsplash.com/
-https://www.freepik.com/
-https://www.pexels.com/
-
-Fonts
-Google fonts
-https://fonts.google.com/
-
-Icons
-https://icon-sets.iconify.design/
-
-Bootstrap Framework
-https://getbootstrap.com/
-
-JQuery Plugins
-
-Swiper Slider - https://swiperjs.com/
-Chocolat.js – a Free Lightbox Plugin -http://chocolat.insipi.de/
-Magnific Lightbox - https://github.com/dimsemenov/Magnific-Popup
-
-Thanks for downloading from TemplatesJungle.com !
-
-
+Asitis Atom whey protein 1kg
+Avvatar creatine 100gm unflavoured 
+Avvatar Iso rich 2kg
+Avvatar whey protein 2kg
+BSN Syntha 6 5lb 
+Cellucore C4 original 60 srv
+Dexter Jackson BCAA 30 srv
+Dexter Jackson Bcaa 60 srv
+Dexter Jackson black series citrulline 125srv
+Dexter Jackson Blade whey 5lb 
+Dexter Jackson CLA 90 softgel
+Dexter Jackson Creatine 100srv unflavoured 
+Dexter Jackson EAA + BCAA 30 srv
+Dexter Jackson Energizer preworkout 454gm
+Dexter Jackson Glutamine 60srv unflavour 
+Dexter Jackson Isolate 5lb
+Dexter Jackson Joint support 90 tablets
+Dexter Jackson L -Arginine 180 tablets 
+Dexter Jackson L carnitine 3000mg
+Dexter Jackson Legend Pump 432 gm 
+Dexter Jackson Legend Whey 5lb
+Dexter Jackson Multi + Test 60 tab
+Dexter Jackson Test gold 60 tablet 
+Dexter Jackson whey 5lb 
+Dragon Black Viper 30 capsules
+Dragon Black Viper 90 capsules
+Dymatize Elite Whey 100% whey 5lb
+Dymatize Iso 100 5lb

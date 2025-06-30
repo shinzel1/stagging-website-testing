@@ -3,20 +3,10 @@
 include 'includes/header.php';
 
 // Database configuration
-$host = 'localhost';
-$db_name = 'nutrizione';
-$username = 'root';
-$password = '';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
+require_once("config/database_connection.php");
 
 // Get user ID from session
-$user_id = $_SESSION['user_id']; // Make sure this is set when the user logs in
+$user_id = $_SESSION['user_id']; // Ensure this is set after user login
 
 if (!$user_id) {
     die("Please log in to view your orders.");
@@ -25,8 +15,10 @@ if (!$user_id) {
 // Fetch orders for the logged-in user
 try {
     $orders_query = "
-        SELECT o.order_id, o.total_amount, o.created_at, o.payment_status
+        SELECT o.order_id, o.total_amount, o.final_amount, o.promo_code, 
+               o.created_at, o.payment_status, u.loyalty_points
         FROM orders o
+        INNER JOIN users u ON o.user_id = u.id
         WHERE o.user_id = ?
         ORDER BY o.created_at DESC
     ";
@@ -48,7 +40,7 @@ try {
 </head>
 
 <body>
-    <div class="container py-5">
+    <div class="container p-5 mt-5">
         <h2 class="mb-4">Your Orders</h2>
 
         <?php if (empty($orders)): ?>
@@ -60,14 +52,14 @@ try {
                         <div>
                             <strong>Order Placed:</strong>
                             <?= htmlspecialchars(date('d F Y', strtotime($order['created_at']))) ?><br>
-                            <strong>Total:</strong> ₹<?= number_format($order['total_amount'], 2) ?>
+                            <strong>Total (Before Discount):</strong> ₹<?= number_format($order['total_amount'], 2) ?>
                         </div>
                         <div>
                             <strong>Order ID:</strong> <?= htmlspecialchars($order['order_id']) ?>
                         </div>
                     </div>
                     <div class="card-body">
-                        <h5>Order Items:</h5>
+                        <h5>Order Summary:</h5>
                         <ul class="list-group mb-3">
                             <?php
                             // Fetch items for each order
@@ -95,12 +87,31 @@ try {
                                 </li>
                             <?php endforeach; ?>
                         </ul>
+
+                        <!-- Discount Section -->
+                        <h5>Discounts:</h5>
+                        <ul class="list-group mb-3">
+                            <?php if (!empty($order['promo_code'])): ?>
+                                <li class="list-group-item">
+                                    <strong>Promo Code Applied:</strong> <?= htmlspecialchars($order['promo_code']) ?>
+                                </li>
+                            <?php endif; ?>
+
+                            <?php 
+                            // Calculate loyalty points discount (Assuming 10 points = ₹1 discount)
+                            $loyalty_discount = ($order['loyalty_points'] / 10);
+                            if ($loyalty_discount > 0): ?>
+                                <li class="list-group-item">
+                                    <strong>Loyalty Points Redeemed:</strong> (-₹<?= number_format($loyalty_discount, 2) ?>)
+                                </li>
+                            <?php endif; ?>
+                        </ul>
+
+                        <p><strong>Final Amount Paid:</strong> <span class="text-success">₹<?= number_format($order['final_amount'], 2) ?></span></p>
+                        <p><strong>Payment Status:</strong> <?= htmlspecialchars(ucfirst($order['payment_status'])) ?></p>
+
                         <div class="d-flex justify-content-end">
-                            <!-- <a href="buy-again.php?product_id=<?= $item['product_id'] ?>" class="btn btn-warning">Buy it
-                                Again</a> -->
                             <a href="order-description.php?order_id=<?= $order['order_id'] ?>" class="btn btn-primary">View Order</a>
-                            <!-- <a href="track-package.php?order_id=<?= $order['order_id'] ?>" class="btn btn-secondary">Track
-                                Package</a> -->
                         </div>
                     </div>
                 </div>

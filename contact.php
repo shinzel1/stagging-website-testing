@@ -1,11 +1,21 @@
 <?php include 'includes/header.php'; ?>
-<section class="">
+<?php
+$is_logged_in = isset($_SESSION['user_id']);
+require_once("config/database_connection.php");
+if (!isset($_SESSION['user_id'])) {
+    $isAdmin = null;
+} else {
+    // Check if the user is an admin
+    $isAdmin = $_SESSION['role'] === 'admin';
+}
+?>
+<section class="pt-5 pb-5">
     <div class="contact-section">
         <div class="container pt-5">
-            <div class="row p-5">
+            <div class="row">
                 <!-- Contact Form -->
-                <div class="contact-form col-md-6 ">
-                    <form id="contact-form" method="post" action="" role="form">
+                <div class="col contact-form col-md-6 ">
+                    <form id="queryForm" method="post" action="" role="form">
 
                         <div class="form-group">
                             <input type="text" placeholder="Your Name" class="form-control" name="name" id="name">
@@ -24,45 +34,56 @@
                                 id="message"></textarea>
                         </div>
 
-                        <!-- <div id="mail-success" class="success">
-                            Thank you. The Mailman is on His Way :
-                        </div>
-
-                        <div id="mail-fail" class="error">
-                            Sorry, don't know what happened. Try later :
-                        </div> -->
-
                         <div id="cf-submit">
-                            <input type="submit" id="contact-submit" class="btn btn-transparent" value="Submit">
+                            <input type="submit" id="contact-submit" class="btn btn-primary" value="Submit">
                         </div>
 
                     </form>
+                    <div id="queryResponse"></div>
+                    <script>
+                    $(document).ready(function () {
+                        $("#queryForm").submit(function (e) {
+                            e.preventDefault();
+
+                            $.ajax({
+                                url: 'includes/submit_query.php',
+                                type: 'POST',
+                                data: $(this).serialize(),
+                                dataType: 'json',
+                                success: function (response) {
+                                    if (response.success) {
+                                        $("#queryResponse").html('<div class="alert">Query submitted successfully!</div>');
+                                        $("#queryForm")[0].reset();
+                                    } else {
+                                        $("#queryResponse").html('<div class="alert alert-danger">' + response.error + '</div>');
+                                    }
+                                }
+                            });
+                        });
+                    });
+                </script>
                 </div>
 
                 <!-- Contact Details -->
-                <div class="contact-details col-md-6 ">
+                <div class="col contact-details col-md-6">
                     <div class="google-map">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d112173.03012636!2d77.12658424806516!3d28.527478163551585!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390cfd5b347eb62d%3A0x52c2b7494e204dce!2sNew%20Delhi%2C%20Delhi!5e0!3m2!1sen!2sin!4v1735839032772!5m2!1sen!2sin"
-                            width="450" height="300" style="border:0;" allowfullscreen="" loading="lazy"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d17646.718720933626!2d77.11561063137842!3d28.643170282751633!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x390d03bf4f1c6a75%3A0x6970d3c7e363b171!2sNutrizone%20%7C%20Supplement%20Store%20in%20Delhi!5e0!3m2!1sen!2sin!4v1742180658724!5m2!1sen!2sin"
+                            width="342" height="auto" style="border:0;" allowfullscreen="" loading="lazy"
                             referrerpolicy="no-referrer-when-downgrade"></iframe>
                     </div>
                     <ul class="contact-short-info">
                         <li>
                             <i class="tf-ion-ios-home"></i>
-                            <span>Khaja Road, Bayzid, Chittagong, Bangladesh</span>
+                            <span>Shop No4, Ground Floor, J13/1, Rajouri Garden, New Delhi, Delhi 110027</span>
                         </li>
                         <li>
                             <i class="tf-ion-android-phone-portrait"></i>
-                            <span>Phone: +880-31-000-000</span>
-                        </li>
-                        <li>
-                            <i class="tf-ion-android-globe"></i>
-                            <span>Fax: +880-31-000-000</span>
+                            <span>Phone: +919891289789</span>
                         </li>
                         <li>
                             <i class="tf-ion-android-mail"></i>
-                            <span>Email: hello@example.com</span>
+                            <span>Email: nutrizone@gmail.com</span>
                         </li>
                     </ul>
                     <!-- Footer Social Links -->
@@ -82,9 +103,6 @@
                     </div>
                     <!--/. End Footer Social Links -->
                 </div>
-                <!-- / End Contact Details -->
-
-
 
             </div> <!-- end row -->
         </div> <!-- end container -->
@@ -93,4 +111,5 @@
 
 <?php include 'includes/footer.php'; ?>
 </body>
+
 </html>

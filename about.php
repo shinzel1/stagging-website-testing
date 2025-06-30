@@ -1,40 +1,77 @@
 <?php include 'includes/header.php'; ?>
 <div class="container pt-5">
-    <section class="about section">
-        <div class="container">
-            <div class="row pt-5">
-
+    <section class="about section pt-5">
+        <div class="">
+            <div class="row">
                 <div class="col-md-6">
-                    <h1 class="mt-40">About Us</h1>
+                    <img class="img-fluid rounded" src="assets/images/andrey-khoviakov-wheRF9s3VtQ-unsplash.jpg" />
+                </div>
+                <div class="col-md-6">
+                    <h2 class="mt-40">About Us</h2>
                     <p>Welcome to Nutrizone, your ultimate destination for premium gym supplements and fitness
                         solutions. We are more than just a store\u2014we are a community dedicated to helping you
                         achieve your health and fitness goals with the best tools, knowledge, and support available.</p>
-                </div>
-                <div class="col-md-6">
-                    <img class="img-fluid rounded" src="assets/images/andrey-khoviakov-wheRF9s3VtQ-unsplash.jpg">
+                    <a href="contact.php" class="btn btn-main mt-20">Download Company Profile</a>
                 </div>
             </div>
-            <!-- <div class="row p-5">
+            <div class="row pt-5">
                 <div class="col-md-3 text-center">
-                    <img src="assets/images/awards-logo.png">
+                    <img src="assets/images/awards-logo.png" />
                 </div>
                 <div class="col-md-3 text-center">
-                    <img src="assets/images/awards-logo.png">
+                    <img src="assets/images/awards-logo.png" />
                 </div>
                 <div class="col-md-3 text-center">
-                    <img src="assets/images/awards-logo.png">
+                    <img src="assets/images/awards-logo.png" />
                 </div>
                 <div class="col-md-3 text-center">
-                    <img src="assets/images/awards-logo.png">
+                    <img src="assets/images/awards-logo.png" />
                 </div>
-            </div> -->
+            </div>
         </div>
     </section>
-
-
-    <section class="pt-5">
+    <!-- <section class="team-members pt-5">
+        <div class="container">
+            <div class="row">
+                <div class="title">
+                    <h2>Team Members</h2>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="team-member text-center">
+                        <img class="img-circle" src="assets/images/team/team-1.jpg"/>
+                        <h4>Jonathon Andrew</h4>
+                        <p>Founder</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-member text-center">
+                        <img class="img-circle" src="assets/images/team/team-2.jpg"/>
+                        <h4>Adipisci Velit</h4>
+                        <p>Developer</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-member text-center">
+                        <img class="img-circle" src="assets/images/team/team-3.jpg"/>
+                        <h4>John Fexit</h4>
+                        <p>Shop Manager</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="team-member text-center">
+                        <img class="img-circle" src="assets/images/team/team-1.jpg"/>
+                        <h4>John Fexit</h4>
+                        <p>Shop Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section> -->
+    <!-- <section class="pt-5">
         <div class="row">
-            <div class="col">
+            <div class="col-md-6">
                 <div class="card text-white">
                     <img src="assets\images\chu-gummies-yBcXqNYJgsk-unsplash.jpg" class="card-img" alt="...">
                     <div class="card-img-overlay">
@@ -44,26 +81,24 @@
                             provide high-quality supplements that not only meet but exceed industry standards, ensuring
                             that you fuel your
                             body with only the best.</p>
-                        <!-- <p class="card-text">Last updated 3 mins ago</p> -->
                     </div>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-md-6">
                 <div class="card text-white">
                     <img src="assets\images\chu-gummies-yBcXqNYJgsk-unsplash.jpg" class="card-img" alt="...">
                     <div class="card-img-overlay">
                         <h2 class="card-title">Who We Are</h2>
-                        <p>Founded in [Year], [Your Brand Name] was born out of a passion for fitness and a commitment
-                            to excellence. Our
-                            team comprises fitness enthusiasts, nutritionists, and industry experts who understand the
-                            challenges and
-                            triumphs of a fitness journey.</p>
+                        <p>Founded in [Year], Nutrizone was born out of a passion for fitness and a commitment
+                            to excellence. Our team comprises fitness enthusiasts, nutritionists, and industry experts who understand the
+                            challenges and triumphs of a fitness journey.</p>
                     </div>
                 </div>
             </div>
         </div>
+        
 
-    </section>
+    </section> -->
     <section class="pt-5">
         <h2>Why Choose Us?</h2>
         <ul>
@@ -127,22 +162,12 @@
                             </div>
                             <p><?= htmlspecialchars($bannerDetails['description']) ?></p>
                         </div>
-                        <div class="col-md-5 p-3">
-                            <form method="POST" action="submit.php">
-                                <div class="mb-3">
-                                    <label for="name" class="form-label d-none">Name</label>
-                                    <input type="text" class="form-control form-control-md rounded-0" name="name"
-                                        id="name" placeholder="Name" required>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="form-label d-none">Email</label>
-                                    <input type="email" class="form-control form-control-md rounded-0" name="email"
-                                        id="email" placeholder="Email Address" required>
-                                </div>
-                                <div class="d-grid gap-2">
-                                    <button type="submit" class="btn btn-dark btn-md rounded-0">Submit</button>
-                                </div>
-                            </form>
+                        <div class="col-md-5 p-5">
+                            <div class="d-grid gap-2">
+                                <a href="login.php" type="submit" class="btn btn-secondary btn-md rounded-0">Login</a>
+
+                                <a type="login.php" class="btn btn-primary btn-md rounded-0">Signup</a>
+                            </div>
                         </div>
                     </div>
                 </div>

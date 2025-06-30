@@ -23,14 +23,14 @@
     input:hover, 
     textarea:hover,
     #contact-submit:hover {
-      border-color: black;
+      border-color: #B21D1A;
     }
     #contact-submit {
       border:none;
       padding: 15px 0;
       width: 100%;
       margin: 0;
-      background: black;
+      background: #e02725;
       color:lavender;
       border-radius: 0;
     }
@@ -112,4 +112,7 @@
   }
   .form-group {
     margin-bottom: 15px;
+}
+#reviewsContainer{
+  padding: 1em 2em;
 }

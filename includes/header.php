@@ -1,30 +1,33 @@
 <?php
+ini_set('display_startup_errors', 1);
+ini_set('display_errors', 1);
+error_reporting(-1);
+
 session_start();
 // Example: Check if the user is logged in
 $is_logged_in = isset($_SESSION['user_id']);
 // require_once 'includes/database.php';
+require_once('config/config.php');
 require_once 'includes/functions.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Nutrizone - Grocery Store HTML Website Template</title>
+  <title>Nutrizone</title>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
   <meta name="mobile-web-app-capable" content="yes">
+  <meta name="robots" content="noindex">
+  <meta name="googlebot" content="noindex">
   <meta name="author" content="">
   <meta name="keywords" content="">
   <meta name="description" content="">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&family=Open+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
-    rel="stylesheet">
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
+  <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
+  <link href="assets/css/poppinscss2.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
     integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
@@ -34,6 +37,7 @@ require_once 'includes/functions.php';
   <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
 </head>
 
 <body>
@@ -418,142 +422,330 @@ require_once 'includes/functions.php';
             </a>
           </li>
         <?php endforeach; ?>
-        <!-- <li class="nav-item border-dashed">
-          <button
-            class="btn btn-toggle dropdown-toggle position-relative w-100 d-flex justify-content-between align-items-center text-dark p-2"
-            data-bs-toggle="collapse" data-bs-target="#beverages-collapse" aria-expanded="false">
-            <div class="d-flex gap-3">
-              <svg width="24" height="24" viewBox="0 0 24 24">
-                <use xlink:href="#beverages"></use>
-              </svg>
-              <span>Beverages</span>
-            </div>
-          </button>
-          <div class="collapse" id="beverages-collapse">
-            <ul class="btn-toggle-nav list-unstyled fw-normal ps-5 pb-1">
-              <?php foreach ($beverages as $beverage): ?>
-                <li class="border-bottom py-2">
-                  <a href="<?= htmlspecialchars($beverage['url']) ?>"
-                    class="dropdown-item"><?= htmlspecialchars($beverage['name']) ?></a>
-                </li>
-              <?php endforeach; ?>
-            </ul>
-          </div>
-        </li> -->
       </ul>
     </div>
   </div>
-
-
-
-
-  <header style="box-shadow: -1px 7px 15px -4px rgba(0,0,0,0.76);">
+  <?php
+  $currentPage = basename($_SERVER['PHP_SELF']); // Get current file name
+  ?>
+  <nav class="navbar navbar-expand-lg fixed-top" aria-label="Thirteenth navbar example">
     <div class="container-fluid">
-      <div class="row py-3 border-bottom">
+      <a class="navbar-brand" href="index.php"><img src="assets/images/logo.jpeg" alt="logo" class="img-fluid"
+          style="height:40px"></a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11"
+        aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-        <div
-          class="col-sm-4 col-lg-2 text-center text-sm-start d-flex gap-3 justify-content-center justify-content-md-start">
-          <div class="d-flex align-items-center my-3 my-sm-0">
-            <a href="index.php">
-              <img src="assets/images/logo.jpeg" alt="logo" class="img-fluid" style="height:40px">
-            </a>
-          </div>
-          <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
-            aria-controls="offcanvasNavbar">
-            <svg width="24" height="24" viewBox="0 0 24 24">
-              <use xlink:href="#menu"></use>
-            </svg>
-          </button>
-        </div>
+      <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
 
-        <div class="col-sm-6 offset-sm-2 offset-md-0 col-lg-4">
-          <div class="search-bar row bg-light p-2 rounded-4">
-            <div class="col-md-4 d-none d-md-block">
-              <select class="form-select border-0 bg-transparent">
-                <option>All Categories</option>
-                <option>Protein Supplements</option>
-                <option>Pre-Workout Supplements</option>
-                <option>Post-Workout Supplements</option>
-              </select>
-            </div>
-            <div class="col-11 col-md-7">
-              <form id="search-form" class="text-center" action="index.html" method="post">
-                <input type="text" class="form-control border-0 bg-transparent"
-                  placeholder="Search for more than 20,000 products">
+        <span class="navbar-brand col-lg-7 me-0">
+          <div class="search-bar d-flex row rounded-4">
+            <div class="">
+              <form id="search-form" class="text-center">
+                <input id="search-input" type="text" class="form-control search-border"
+                  placeholder="Search for more than 20,000 products" autocomplete="off">
               </form>
-            </div>
-            <div class="col-1">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-                <path fill="currentColor"
-                  d="M21.71 20.29L18 16.61A9 9 0 1 0 16.61 18l3.68 3.68a1 1 0 0 0 1.42 0a1 1 0 0 0 0-1.39ZM11 18a7 7 0 1 1 7-7a7 7 0 0 1-7 7Z" />
-              </svg>
+              <div id="search-results" class="bg-white border rounded mt-2 d-none search-results"></div>
             </div>
           </div>
-        </div>
+        </span>
+        <div class="d-lg-flex col-lg-5 justify-content-lg-end p-0">
 
-        <div class="col-lg-4">
-          <ul
-            class="navbar-nav list-unstyled d-flex flex-row gap-3 gap-lg-5 justify-content-center flex-wrap align-items-center mb-0 fw-bold text-uppercase text-dark">
-            <li class="nav-item active">
-              <a href="index.php" class="nav-link">Home</a>
-            </li>
-            <li class="nav-item active">
-              <a href="products.php" class="nav-link">products</a>
+          <ul class="navbar-nav justify-content-lg-center mb-0 fw-bold text-uppercase text-dark">
+
+            <li class="nav-item">
+              <a class="nav-link <?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>" aria-current="page"
+                href="index.php">Home</a>
             </li>
             <li class="nav-item">
-              <a href="about.php" class="nav-link">About</a>
+              <a class="nav-link products <?php echo ($currentPage == 'products.php') ? 'active' : ''; ?>"
+                href="products.php">Products</a>
             </li>
+            <!-- <li class="nav-item">
+              <a class="nav-link <?php echo ($currentPage == 'about.php') ? 'active' : ''; ?>"
+                href="about.php">About</a>
+            </li> -->
             <li class="nav-item">
-              <a href="contact.php" class="nav-link">Contact</a>
+              <a class="nav-link <?php echo ($currentPage == 'contact.php') ? 'active' : ''; ?>"
+                href="contact.php">Contact</a>
             </li>
-          </ul>
-        </div>
 
-        <div class="col-sm-8 col-lg-2 d-flex gap-5 align-items-center justify-content-center justify-content-sm-end">
-          <ul class=" d-flex list-unstyled m-0">
+
+
             <?php if ($is_logged_in): ?>
-              <li class="nav-item">
-                <!-- <a href="" class="p-2 mx-1" data-bs-toggle="offcanvas" data-bs-target="#offcanvasCart"
-                  aria-controls="offcanvasCart"> -->
-                <a href="cart.php" class="p-2 mx-1">
-                  <i class="fa-solid fa-cart-shopping"></i> Cart
-                </a>
-              </li>
+              <?php if ($_SESSION['role'] == 'admin'): ?>
+                <li class="nav-item">
+                  <a href="admin_dashboard.php" class="nav-link p-2 mx-1">
+                    Admin
+                  </a>
 
+                </li>
+                <li class="nav-item">
+                  <a href="logout.php" class="nav-link p-2 mx-1">
+                    Logout
+                  </a>
+                </li>
 
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                  aria-expanded="false">
-                  <svg width="24" height="24">
-                    <use xlink:href="#user"></use>
-                  </svg>
-                </a>
-                <ul class="dropdown-menu">
-                  <li>
-                    <a href="logout.php" class="dropdown-itemp-2 mx-1 p-2">
-                      <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-                    </a>
-                  </li>
+              <?php else: ?>
+                <li class="nav-item">
+                  <a href="cart.php" class="p-2 mx-1 nav-link">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span class='badge badge-warning' id='lblCartCount'></span>Cart</a>
+                </li>
+                <style>
+                  .badge {
+                    padding-left: 9px;
+                    padding-right: 9px;
+                    -webkit-border-radius: 9px;
+                    -moz-border-radius: 9px;
+                    border-radius: 9px;
+                  }
 
-                  <li>
-                    <hr class="dropdown-divider">
-                  </li>
-                  <li><a class="dropdown-item" href="orders.php"><i class="fa-solid fa-check"></i> orders</a></li>
-                </ul>
-              </li>
+                  .label-warning[href],
+                  .badge-warning[href] {
+                    background-color: #c67605;
+                  }
+
+                  #lblCartCount {
+                    font-size: 12px;
+                    background: rgb(214, 35, 35);
+                    color: #fff;
+                    padding: 0 5px;
+                    vertical-align: top;
+                    margin-left: -10px;
+                  }
+                </style>
+                <li class="nav-item dropdown">
+                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <svg width="24" height="24">
+                      <use xlink:href="#user"></use>
+                    </svg>
+                    User
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <li>
+                      <a class="dropdown-item" href="user-profile.php">
+                        <svg width="24" height="24">
+                          <use xlink:href="#user"></use>
+                        </svg> user profile
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="orders.php">
+                        <i class="fa-solid fa-check"></i> orders
+                      </a>
+                    </li>
+                    <li>
+                      <a class="dropdown-item" href="wishlist.php">
+                        <svg width="18" height="18">
+                          <use xlink:href="#heart"></use>
+                        </svg> Wishlist
+                      </a>
+                    </li>
+
+                    <li>
+                      <hr class="dropdown-divider">
+                    </li>
+                    <li>
+                      <a href="logout.php" class="dropdown-item p-2 mx-1 p-2">
+                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+              <?php endif; ?>
             <?php else: ?>
-              <li>
-                <a href="login.php" class="p-2 mx-1">
+              <li class="nav-item">
+                <a class="nav-link" href="login.php">
                   <svg width="24" height="24">
                     <use xlink:href="#user"></use>
-                  </svg>Login
+                  </svg><span class="ml-1">Login</span>
                 </a>
               </li>
             <?php endif; ?>
           </ul>
         </div>
-
-
       </div>
     </div>
-  </header>
+  </nav>
+  <div class="p-3"></div>
+  <style>
+    .search-results {
+      position: absolute;
+      z-index: 2;
+      font-size: medium;
+    }
+
+    .search-border {
+      --bs-border-opacity: 1;
+      border-color: rgba(0, 0, 0, 0.76)
+    }
+
+    .navbar {
+      background-color: white;
+      box-shadow: -1px 7px 15px -4px rgba(0, 0, 0, 0.76);
+      padding: 1rem;
+
+    }
+
+    .navbar-nav {
+      @media (max-width: 1000px) {
+        text-align: center;
+      }
+    }
+
+    .bd-placeholder-img {
+      font-size: 1.125rem;
+      text-anchor: middle;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      user-select: none;
+    }
+
+    @media (min-width: 768px) {
+      .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+      }
+    }
+
+    .b-example-divider {
+      width: 100%;
+      height: 3rem;
+      background-color: rgba(0, 0, 0, .1);
+      border: solid rgba(0, 0, 0, .15);
+      border-width: 1px 0;
+      box-shadow: inset 0 .5em 1.5em rgba(0, 0, 0, .1), inset 0 .125em .5em rgba(0, 0, 0, .15);
+    }
+
+    .b-example-vr {
+      flex-shrink: 0;
+      width: 1.5rem;
+      height: 100vh;
+    }
+
+    .bi {
+      vertical-align: -.125em;
+      fill: currentColor;
+    }
+
+    .nav-scroller {
+      position: relative;
+      z-index: 2;
+      height: 2.75rem;
+      overflow-y: hidden;
+    }
+
+    .nav-scroller .nav {
+      display: flex;
+      flex-wrap: nowrap;
+      padding-bottom: 1rem;
+      margin-top: -1px;
+      overflow-x: auto;
+      text-align: center;
+      white-space: nowrap;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .btn-bd-primary {
+      --bd-violet-bg: #712cf9;
+      --bd-violet-rgb: 112.520718, 44.062154, 249.437846;
+
+      --bs-btn-font-weight: 600;
+      --bs-btn-color: var(--bs-white);
+      --bs-btn-bg: var(--bd-violet-bg);
+      --bs-btn-border-color: var(--bd-violet-bg);
+      --bs-btn-hover-color: var(--bs-white);
+      --bs-btn-hover-bg: #6528e0;
+      --bs-btn-hover-border-color: #6528e0;
+      --bs-btn-focus-shadow-rgb: var(--bd-violet-rgb);
+      --bs-btn-active-color: var(--bs-btn-hover-color);
+      --bs-btn-active-bg: #5a23c8;
+      --bs-btn-active-border-color: #5a23c8;
+    }
+
+    .bd-mode-toggle {
+      z-index: 1500;
+    }
+
+    .bd-mode-toggle .dropdown-menu .active .bi {
+      display: block !important;
+    }
+  </style>
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const searchInput = document.getElementById('search-input');
+      const searchResults = document.getElementById('search-results');
+      const categorySelect = document.getElementById('category');
+
+      searchInput.addEventListener('input', function () {
+        const query = searchInput.value.trim();
+        const category = categorySelect.value;
+
+        if (query.length > 2) {
+          // Show loader or results div
+          searchResults.classList.remove('d-none');
+          searchResults.innerHTML = 'Searching...';
+
+
+          $.ajax({
+            url: 'includes/fetch_products.php',
+            method: 'POST',
+            data: { searchTerm: query },
+            dataType: 'json',
+            success: function (response) {
+              if (response.success && response.products.length > 0) {
+                // Render product results
+                const resultsHtml = response.products
+                  .map(product => `
+                <div class="p-2">
+                  <a href="product-details.php?id=${product.id}" class="d-block text-dark">
+                  <img src="${product.image_url}" alt="${product.name}" style="width: 50px; height: 50px;"/>
+                    ${product.name?.substring(0, 100)}
+                  </a>
+                </div>
+              `)
+                  .join('');
+                searchResults.innerHTML = resultsHtml;
+              } else {
+                searchResults.innerHTML = '<div class="p-2 text-muted">Press Enter to search ' + query + '</div>';
+              }
+            },
+            error: function () {
+              searchResults.innerHTML = '<div class="p-2 text-danger">Error loading results</div>';
+              console.error(err);
+            }
+          });
+        } else {
+          // Hide results if input is cleared or too short
+          searchResults.classList.add('d-none');
+        }
+      });
+    });
+
+    function updateCartCount() {
+      $.ajax({
+        url: 'includes/fetch_cart_count.php',
+        type: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          if (response.success) {
+            $("#lblCartCount").text(response.count);
+          } else {
+            $("#lblCartCount").text(0);
+          }
+        },
+        error: function (xhr, status, error) {
+          console.error("Error fetching cart count:", error);
+          $("#lblCartCount").text(0);
+        }
+      });
+    }
+
+    // Call the function when the page loads
+    $(document).ready(function () {
+      updateCartCount();
+    });
+
+  </script>

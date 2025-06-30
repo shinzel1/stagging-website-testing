@@ -1,19 +1,7 @@
 <?php
 session_start();
-// Database configuration
-$host = 'localhost';
-$db_name = 'nutrizione';
-$username = 'root';
-$password = '';
+require_once("../config/database_connection.php");
 
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die(json_encode(['status' => 'error', 'message' => "Connection failed: " . $e->getMessage()]));
-}
-
-// Ensure the user is logged in
 if (!isset($_SESSION['user_id'])) {
     echo json_encode(['status' => 'error', 'message' => 'Unauthorized']);
     exit;
@@ -28,8 +16,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     try {
         if ($action === 'update' && $cartId && $quantity && is_numeric($quantity) && $quantity > 0) {
+            // Fetch the current stock
+            $stmt = $pdo->prepare("SELECT p.quantity AS stock_quantity FROM cart c 
+                                   INNER JOIN products p ON c.product_id = p.id 
+                                   WHERE c.id = ?");
+            $stmt->execute([$cartId]);
+            $product = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if (!$product) {
+                echo json_encode(['status' => 'error', 'message' => 'Product not found']);
+                exit;
+            }
+
+            if ($quantity > $product['stock_quantity']) {
+                echo json_encode(['status' => 'error', 'message' => 'Requested quantity exceeds available stock']);
+                exit;
+            }
+
+            // Proceed to update quantity
             $stmt = $pdo->prepare("UPDATE cart SET quantity = ? WHERE id = ? AND user_id = ?");
             $stmt->execute([$quantity, $cartId, $userId]);
+
             echo json_encode(['status' => 'success', 'message' => 'Quantity updated']);
         } elseif ($action === 'remove' && $cartId) {
             $stmt = $pdo->prepare("DELETE FROM cart WHERE id = ? AND user_id = ?");
@@ -42,3 +49,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         echo json_encode(['status' => 'error', 'message' => "Error: " . $e->getMessage()]);
     }
 }
+?>

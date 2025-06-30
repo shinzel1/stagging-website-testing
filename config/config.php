@@ -1,19 +1,32 @@
-        <?php
-        // Database Configuration
-        define('DB_HOST', 'localhost');
-        define('DB_USER', 'root');
-        define('DB_PASS', '');
-        define('DB_NAME', 'ecommerce');
+<?php
+function loadEnv($filePath)
+{
+    if (!file_exists($filePath)) {
+        die("Environment file not found: $filePath");
+    }
 
-        // Create a connection
-        $conn = new mysqli(DB_HOST, DB_USER, DB_PASS, DB_NAME);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
+    $lines = file($filePath, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+    foreach ($lines as $line) {
+        // Skip comments
+        if (strpos(trim($line), '#') === 0) {
+            continue;
         }
 
-        // Optionally, set character encoding
-        $conn->set_charset('utf8mb4');
+        // Parse the line
+        $keyValuePair = explode('=', $line, 2);
+        if (count($keyValuePair) === 2) {
+            $key = trim($keyValuePair[0]);
+            $value = trim($keyValuePair[1]);
 
-        ?>
+            // Remove quotes if present
+            $value = trim($value, '"\'');
+
+            // Set the variable in the environment
+            putenv("$key=$value");
+            $_ENV[$key] = $value;
+        }
+    }
+}
+
+
+?>

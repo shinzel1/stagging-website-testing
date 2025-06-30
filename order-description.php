@@ -2,17 +2,7 @@
 include 'includes/header.php';
 
 // Database configuration
-$host = 'localhost';
-$db_name = 'nutrizione';
-$username = 'root';
-$password = '';
-
-try {
-    $pdo = new PDO("mysql:host=$host;dbname=$db_name", $username, $password);
-    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $e) {
-    die("Database connection failed: " . $e->getMessage());
-}
+require_once("config/database_connection.php");
 
 // Get user ID from session
 $user_id = $_SESSION['user_id']; // Ensure this is set after user login
@@ -30,8 +20,10 @@ $order_id = $_GET['order_id'];
 // Fetch the order details
 try {
     $order_query = "
-        SELECT o.order_id, o.total_amount, o.created_at, o.payment_status, o.shipping_address
+        SELECT o.order_id, o.total_amount, o.final_amount, o.created_at, o.payment_status, o.shipping_address, 
+               o.promo_code, u.email, u.loyalty_points
         FROM orders o
+        INNER JOIN users u ON o.user_id = u.id
         WHERE o.order_id = ? AND o.user_id = ?
     ";
     $order_stmt = $pdo->prepare($order_query);
@@ -68,7 +60,7 @@ try {
 </head>
 
 <body>
-    <div class="container py-5">
+    <div class="container p-5 mt-5">
         <h2 class="mb-4">Order Details</h2>
 
         <!-- Order Summary -->
@@ -76,9 +68,21 @@ try {
             <div class="card-body">
                 <h5 class="card-title">Order Summary</h5>
                 <p><strong>Order ID:</strong> <?= htmlspecialchars($order['order_id']) ?></p>
-                <p><strong>Order Date:</strong> <?= htmlspecialchars(date('d F Y', strtotime($order['created_at']))) ?>
-                </p>
-                <p><strong>Total Amount:</strong> ₹<?= number_format($order['total_amount'], 2) ?></p>
+                <p><strong>Order Date:</strong> <?= htmlspecialchars(date('d F Y', strtotime($order['created_at']))) ?></p>
+                <p><strong>Total Amount (Before Discount):</strong> ₹<?= number_format($order['total_amount'], 2) ?></p>
+                
+                <?php if (!empty($order['promo_code'])): ?>
+                    <p><strong>Promo Code Applied:</strong> <?= htmlspecialchars($order['promo_code']) ?></p>
+                <?php endif; ?>
+
+                <?php 
+                // Calculate loyalty points discount (Assuming 10 points = ₹1 discount)
+                $loyalty_discount = ($order['loyalty_points'] / 10);
+                if ($loyalty_discount > 0): ?>
+                    <p><strong>Loyalty Points Redeemed:</strong> -₹<?= number_format($loyalty_discount, 2) ?></p>
+                <?php endif; ?>
+
+                <p><strong>Final Amount Paid:</strong> <span class="text-success">₹<?= number_format($order['final_amount'], 2) ?></span></p>
                 <p><strong>Payment Status:</strong> <?= htmlspecialchars(ucfirst($order['payment_status'])) ?></p>
                 <p><strong>Shipping Address:</strong> <?= htmlspecialchars($order['shipping_address']) ?></p>
             </div>
@@ -108,10 +112,7 @@ try {
 
         <!-- Order Actions -->
         <div class="d-flex justify-content-end">
-            <!-- <a href="track-package.php?order_id=<?= $order['order_id'] ?>" class="btn btn-secondary">Track Package</a>
-            <a href="leave-feedback.php?order_id=<?= $order['order_id'] ?>" class="btn btn-primary">Leave Feedback</a> -->
-            <a href="download-invoice.php?order_id=<?= $order['order_id'] ?>" class="btn btn-success">Download
-                Invoice</a>
+            <a href="generate_invoice.php?order_id=<?= $order['order_id'] ?>" class="btn btn-success">Download Invoice</a>
         </div>
     </div>
 
