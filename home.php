@@ -2,7 +2,7 @@
 require_once("config/database_connection.php");
 
 try {
-    $query = "SELECT name, title, description, image FROM categories";
+    $query = "SELECT name, title, description, image FROM categories LIMIT 7";
     $stmt = $pdo->prepare($query);
     $stmt->execute();
     $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
@@ -124,7 +124,7 @@ try {
                             <a href="products.php?search=<?= $category['title']; ?>"
                                 class="nav-link swiper-slide text-center">
                                 <img src="<?= $category['image']; ?>" class="rounded-circle categoryRoundImage"
-                                    alt="Category Thumbnail">
+                                    alt="Category Thumbnail"/>
                                 <h4 class="fs-6 mt-3 fw-normal category-title"><?= $category['name']; ?></h4>
                             </a>
                         <?php endforeach; ?>

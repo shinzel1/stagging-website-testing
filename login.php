@@ -7,8 +7,7 @@ error_reporting(-1);
 // Check if the user is logged in
 if (isset($_SESSION['user_id'])) {
   // Return JSON response for AJAX
-  header('Content-Type: application/json');
-  echo json_encode(['redirect' => 'index.php']);
+    header('Location: index.php');
   exit;
 }
 include("pages/style.php");
