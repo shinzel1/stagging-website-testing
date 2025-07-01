@@ -34,10 +34,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 <body>
     <!-- PLUGINS CSS STYLE -->
-    <link href="assets/admin/assets/plugins/simplebar/simplebar.css" rel="stylesheet" />
     <link href="assets/admin/assets/plugins/nprogress/nprogress.css" rel="stylesheet" />
     <!-- No Extra plugin used -->
-    <link href='assets/admin/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.css' rel='stylesheet'>
     <link href='assets/admin/assets/plugins/daterangepicker/daterangepicker.css' rel='stylesheet'>
     <link href='assets/admin/assets/plugins/toastr/toastr.min.css' rel='stylesheet'>
     <!-- SLEEK CSS -->
@@ -722,7 +720,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     <form class="todo-form">
                                         <div class="input-group mb-0">
                                             <input type="text" class="form-control border-right-0"
-                                                placeholder="Add Todo" required="" autofocus>
+                                                placeholder="Add Todo" required="">
                                             <div class="input-group-append ml-0">
                                                 <button class="input-group-text border-0 btn bg-primary" type="submit">
                                                     <svg xmlns="http://www.w3.org/2000/svg" height="18"
@@ -1284,18 +1282,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </script>
     <script src="assets/admin/assets/plugins/jquery/jquery.min.js"></script>
     <script src="assets/admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-    <script src="assets/admin/assets/plugins/simplebar/simplebar.min.js"></script>
-
+=
     <script src='assets/admin/assets/plugins/charts/Chart.min.js'></script>
     <script src='assets/admin/assets/js/chart.js'></script>
     <script src='assets/admin/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js'></script>
     <script src='assets/admin/assets/plugins/jvectormap/jquery-jvectormap-world-mill.js'></script>
-    <script src='assets/admin/assets/js/vector-map.js'></script>
     <script src='assets/admin/assets/plugins/daterangepicker/moment.min.js'></script>
     <script src='assets/admin/assets/plugins/daterangepicker/daterangepicker.js'></script>
     <script src='assets/admin/assets/js/date-range.js'></script>
     <script src='assets/admin/assets/plugins/toastr/toastr.min.js'></script>
     <script src="assets/admin/assets/js/sleek.js"></script>
-    <link href="assets/admin/assets/options/optionswitch.css" rel="stylesheet">
-    <script src="assets/admin/assets/options/optionswitcher.js"></script>
     <script src="assets/js/jquery.dataTables.min.js"></script>

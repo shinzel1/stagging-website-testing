@@ -164,6 +164,13 @@ try {
                     } catch (PDOException $e) {
                         $error = 'Error: ' . $e->getMessage();
                     }
+
+                    try {
+                        $stmt = $pdo->query("SELECT * FROM products WHERE featured_product = 1 ORDER BY created_at DESC LIMIT 0,5");
+                        $featureProducts = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    } catch (PDOException $e) {
+                        $error = 'Error: ' . $e->getMessage();
+                    }
                     // Loop through products and display them
                     foreach ($products as $product) {
                         ?>
@@ -359,7 +366,7 @@ try {
             <div class="col-md-12">
                 <div class="swiper">
                     <div class="swiper-wrapper">
-                        <?php foreach ($products as $product): ?>
+                        <?php foreach ($featureProducts as $product): ?>
                             <div class="product-item position-relative swiper-slide">
                                 <a href="product-details.php?id=<?= urlencode($product['id']); ?>"
                                     title="<?= htmlspecialchars($product['name']); ?>">

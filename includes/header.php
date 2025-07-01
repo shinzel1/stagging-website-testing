@@ -24,7 +24,7 @@ require_once 'includes/functions.php';
   <meta name="author" content="">
   <meta name="keywords" content="">
   <meta name="description" content="">
-  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
 
   <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
   <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
@@ -429,148 +429,111 @@ require_once 'includes/functions.php';
   <?php
   $currentPage = basename($_SERVER['PHP_SELF']); // Get current file name
   ?>
-  <nav class="navbar navbar-expand-lg fixed-top" aria-label="Thirteenth navbar example">
+  <style>
+    .badge {
+      padding-left: 9px !important; 
+      padding-right: 9px !important;
+      -webkit-border-radius: 9px !important;
+      -moz-border-radius: 9px !important;
+      border-radius: 9px !important;
+    }
+
+    .label-warning[href],
+    .badge-warning[href] {
+      background-color: #c67605;
+    }
+
+    #lblCartCount {
+      font-size: 14px;
+      background: rgb(214, 35, 35);
+      color: #fff;
+      padding: 0 5px !important;
+      vertical-align: top !important;
+      margin-left: -6px !important;
+    }
+  </style>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white fixed-top">
     <div class="container-fluid">
-      <a class="navbar-brand" href="index.php"><img src="assets/images/logo.jpeg" alt="logo" class="img-fluid"
-          style="height:40px"></a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarsExample11"
-        aria-controls="navbarsExample11" aria-expanded="false" aria-label="Toggle navigation">
+      <!-- Logo -->
+      <a class="navbar-brand" href="index.php">
+        <img src="assets/images/logo.jpeg" alt="logo" class="img-fluid" style="height:40px">
+      </a>
+
+      <!-- Toggler -->
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive"
+        aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
-      <div class="collapse navbar-collapse d-lg-flex" id="navbarsExample11">
+      <!-- Navbar Content -->
+      <div class="collapse navbar-collapse" id="navbarResponsive">
 
-        <span class="navbar-brand col-lg-7 me-0">
-          <div class="search-bar d-flex row rounded-4">
-            <div class="">
-              <form id="search-form" class="text-center">
-                <input id="search-input" type="text" class="form-control search-border"
-                  placeholder="Search for more than 20,000 products" autocomplete="off">
-              </form>
-              <div id="search-results" class="bg-white border rounded mt-2 d-none search-results"></div>
-            </div>
-          </div>
-        </span>
-        <div class="d-lg-flex col-lg-5 justify-content-lg-end p-0">
+        <!-- Search Bar -->
+        <div class="mx-auto my-2 my-lg-0 w-100 px-3">
+          <form id="search-form" class="d-flex">
+            <input id="search-input" type="text" class="form-control search-border"
+              placeholder="Search for more than 20,000 products" autocomplete="off">
+          </form>
+          <div id="search-results" class="bg-white border rounded mt-2 d-none search-results"></div>
+        </div>
 
-          <ul class="navbar-nav justify-content-lg-center mb-0 fw-bold text-uppercase text-dark">
+        <!-- Nav Links -->
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold text-uppercase text-dark align-items-center">
+          <li class="nav-item">
+            <a class="nav-link <?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>" href="index.php">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?php echo ($currentPage == 'products.php') ? 'active' : ''; ?>"
+              href="products.php">Products</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link <?php echo ($currentPage == 'contact.php') ? 'active' : ''; ?>"
+              href="contact.php">Contact</a>
+          </li>
 
-            <li class="nav-item">
-              <a class="nav-link <?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>" aria-current="page"
-                href="index.php">Home</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link products <?php echo ($currentPage == 'products.php') ? 'active' : ''; ?>"
-                href="products.php">Products</a>
-            </li>
-            <!-- <li class="nav-item">
-              <a class="nav-link <?php echo ($currentPage == 'about.php') ? 'active' : ''; ?>"
-                href="about.php">About</a>
-            </li> -->
-            <li class="nav-item">
-              <a class="nav-link <?php echo ($currentPage == 'contact.php') ? 'active' : ''; ?>"
-                href="contact.php">Contact</a>
-            </li>
-
-
-
-            <?php if ($is_logged_in): ?>
-              <?php if ($_SESSION['role'] == 'admin'): ?>
-                <li class="nav-item">
-                  <a href="admin_dashboard.php" class="nav-link p-2 mx-1">
-                    Admin
-                  </a>
-
-                </li>
-                <li class="nav-item">
-                  <a href="logout.php" class="nav-link p-2 mx-1">
-                    Logout
-                  </a>
-                </li>
-
-              <?php else: ?>
-                <li class="nav-item">
-                  <a href="cart.php" class="p-2 mx-1 nav-link">
-                    <i class="fa-solid fa-cart-shopping"></i>
-                    <span class='badge badge-warning' id='lblCartCount'></span></a>
-                </li>
-                <style>
-                  .badge {
-                    padding-left: 9px;
-                    padding-right: 9px;
-                    -webkit-border-radius: 9px;
-                    -moz-border-radius: 9px;
-                    border-radius: 9px;
-                  }
-
-                  .label-warning[href],
-                  .badge-warning[href] {
-                    background-color: #c67605;
-                  }
-
-                  #lblCartCount {
-                    font-size: 12px;
-                    background: rgb(214, 35, 35);
-                    color: #fff;
-                    padding: 0 5px;
-                    vertical-align: top;
-                    margin-left: -10px;
-                  }
-                </style>
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    <svg width="24" height="24">
-                      <use xlink:href="#user"></use>
-                    </svg>
-                    User
-                  </a>
-                  <ul class="dropdown-menu dropdown-menu-end">
-                    <li>
-                      <a class="dropdown-item" href="user-profile.php">
-                        <svg width="24" height="24">
-                          <use xlink:href="#user"></use>
-                        </svg> user profile
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="orders.php">
-                        <i class="fa-solid fa-check"></i> orders
-                      </a>
-                    </li>
-                    <li>
-                      <a class="dropdown-item" href="wishlist.php">
-                        <svg width="18" height="18">
-                          <use xlink:href="#heart"></use>
-                        </svg> Wishlist
-                      </a>
-                    </li>
-
-                    <li>
-                      <hr class="dropdown-divider">
-                    </li>
-                    <li>
-                      <a href="logout.php" class="dropdown-item p-2 mx-1 p-2">
-                        <i class="fa-solid fa-arrow-right-from-bracket"></i> Logout
-                      </a>
-                    </li>
-                  </ul>
-                </li>
-              <?php endif; ?>
+          <?php if ($is_logged_in): ?>
+            <?php if ($_SESSION['role'] == 'admin'): ?>
+              <li class="nav-item">
+                <a href="admin_dashboard.php" class="nav-link">Admin</a>
+              </li>
+              <li class="nav-item">
+                <a href="logout.php" class="nav-link">Logout</a>
+              </li>
             <?php else: ?>
               <li class="nav-item">
-                <a class="nav-link" href="login.php">
-                  <svg width="24" height="24">
-                    <use xlink:href="#user"></use>
-                  </svg><span class="ml-1">Login</span>
+                <a href="cart.php" class="nav-link position-relative">
+                  <i class="fa-solid fa-cart-shopping"></i>
+                  <span class="position-absolute start-100 translate-middle rounded-pill badge badge-warning"
+                    id="lblCartCount"></span>
                 </a>
               </li>
+
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  <i class="fa-solid fa-user"></i> User
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <li><a class="dropdown-item" href="user-profile.php"><i class="fa fa-user"></i> Profile</a></li>
+                  <li><a class="dropdown-item" href="orders.php"><i class="fa-solid fa-check"></i> Orders</a></li>
+                  <li><a class="dropdown-item" href="wishlist.php"><i class="fa fa-heart"></i> Wishlist</a></li>
+                  <li>
+                    <hr class="dropdown-divider">
+                  </li>
+                  <li><a class="dropdown-item" href="logout.php"><i class="fa-solid fa-arrow-right-from-bracket"></i>
+                      Logout</a></li>
+                </ul>
+              </li>
             <?php endif; ?>
-          </ul>
-        </div>
+          <?php else: ?>
+            <li class="nav-item">
+              <a class="nav-link" href="login.php"><i class="fa fa-user"></i> Login</a>
+            </li>
+          <?php endif; ?>
+        </ul>
       </div>
     </div>
   </nav>
+
   <div class="p-3"></div>
   <style>
     .search-results {

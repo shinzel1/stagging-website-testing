@@ -14945,12 +14945,7 @@ div.copied {
 }
 
 
-@media (min-width: 992px) {
-  .navbar .navbar-nav .nav-item {
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-  }
-}
+
 
 .navbar .navbar-nav .nav-item .nav-link {
   color: black;
