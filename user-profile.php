@@ -1,10 +1,10 @@
 <?php
 include 'includes/header.php';
-if (!isset($_SESSION['user_id'])) {
-    // User is not logged in, redirect to index.php
-    header("Location: index.php");
-    exit;
-}
+// if (!isset($_SESSION['user_id'])) {
+//     // User is not logged in, redirect to index.php
+//     redirect("Location: index.php");
+//     exit;
+// }
 
 $user_id = $_SESSION['user_id'] ?? null;
 require_once("config/database_connection.php");
