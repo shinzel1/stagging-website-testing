@@ -4,17 +4,17 @@
 
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer-menu">
-                    <img src="assets/images/logo.jpeg" width="240" alt="logo">
-                    <div class="social-links mt-3">
-                        <ul class="d-flex list-unstyled gap-2">
+                    <img src="assets/images/logo.jpeg" width="100%" alt="logo">
+                    <div class="social-links mt-3" >
+                        <ul class="d-flex list-unstyled gap-2" style="justify-content: center;" >
                             <li>
-                                <a href="#" class="btn btn-outline-light">
+                                <a href="https://www.facebook.com/nutrizonecompletenutritionstore" target="_blank" rel="noopener noreferrer" class="btn btn-outline-light" >
                                     <svg width="16" height="16">
                                         <use xlink:href="#facebook"></use>
                                     </svg>
                                 </a>
                             </li>
-                            <li>
+                            <!-- <li>
                                 <a href="#" class="btn btn-outline-light">
                                     <svg width="16" height="16">
                                         <use xlink:href="#twitter"></use>
@@ -27,21 +27,21 @@
                                         <use xlink:href="#youtube"></use>
                                     </svg>
                                 </a>
-                            </li>
+                            </li> -->
                             <li>
-                                <a href="#" class="btn btn-outline-light">
+                                <a href="https://www.instagram.com/nutrizone.delhi" class="btn btn-outline-light"  target="_blank" rel="noopener noreferrer">
                                     <svg width="16" height="16">
                                         <use xlink:href="#instagram"></use>
                                     </svg>
                                 </a>
                             </li>
-                            <li>
-                                <a href="#" class="btn btn-outline-light">
+                            <!-- <li>
+                                <a href="#" class="btn btn-outline-light"  target="_blank" rel="noopener noreferrer">
                                     <svg width="16" height="16">
                                         <use xlink:href="#amazon"></use>
                                     </svg>
                                 </a>
-                            </li>
+                            </li> -->
                         </ul>
                     </div>
                 </div>
