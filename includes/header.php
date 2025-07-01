@@ -6,7 +6,6 @@ error_reporting(-1);
 session_start();
 // Example: Check if the user is logged in
 $is_logged_in = isset($_SESSION['user_id']);
-// require_once 'includes/database.php';
 require_once('config/config.php');
 require_once 'includes/functions.php';
 ?>
