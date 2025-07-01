@@ -20,6 +20,23 @@ try {
         background-color: #e02725;
         color: white;
     }
+
+    .out-of-stock-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(255, 255, 255, 0.5);
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .out-of-stock-img {
+        width: 10em;
+        height: auto;
+    }
 </style>
 
 <section class="pt-5"
@@ -124,7 +141,7 @@ try {
                             <a href="products.php?search=<?= $category['title']; ?>"
                                 class="nav-link swiper-slide text-center">
                                 <img src="<?= $category['image']; ?>" class="rounded-circle categoryRoundImage"
-                                    alt="Category Thumbnail"/>
+                                    alt="Category Thumbnail" />
                                 <h4 class="fs-6 mt-3 fw-normal category-title"><?= $category['name']; ?></h4>
                             </a>
                         <?php endforeach; ?>
@@ -270,24 +287,7 @@ try {
     </div>
 </section>
 
-<style>
-    .out-of-stock-overlay {
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(255, 255, 255, 0.5);
-        width: 100%;
-        height: 100%;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
 
-    .out-of-stock-img {
-        width: 10em;
-        height: auto;
-    }
-</style>
 <section class="py-3">
     <div class="container-lg">
         <div class="row">
