@@ -45,6 +45,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <!-- FAVICON -->
     <link href="assets/admin/assets/img/favicon.png" rel="shortcut icon" />
+    <link rel="stylesheet" href="assets/css/dataTable/jquery.dataTables.min.css" />
 
     <!--
       HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries
@@ -178,7 +179,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                 </div>
                             </div>
                             <div class="card-body pt-0 pb-5" style="overflow-x: scroll;">
-                                <table class="table card-table table-responsive table-responsive-large"
+                                <table class="table table-striped table-hover"
                                     style="width:100% ;" id="user-table">
                                     <thead>
                                         <tr>
@@ -1209,48 +1210,64 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </div>
     <script>
         $(document).ready(function () {
-            const fetchUsers = () => {
-                $.getJSON('includes/fetch_users.php', function (response) {
-                    if (response.success) {
-                        const rows = response.users.map(user => `
-                        <tr>
-                            <td>${user.id}</td>
-                            <td>${user.username}</td>
-                            <td>${user.email}</td>
-                            <td>${user.role}</td>
-                            <td>${user.created_at}</td>
-                            <td>${user.is_verified ? 'Yes' : 'No'}</td>
-                            <td>
-                                <button class="btn btn-danger btn-sm delete-user-btn" data-id="${user.id}">Delete</button>
-                            </td>
-                        </tr>
-                    `);
-                        $('#user-table tbody').html(rows.join(''));
+            // Initialize DataTable
+            const table = $('#user-table').DataTable({
+                ajax: {
+                    url: 'includes/fetch_users.php',
+                    dataSrc: function (json) {
+                        return json.success ? json.users : [];
                     }
-                });
-            };
-
-            fetchUsers();
+                },
+                columns: [
+                    { data: 'id' },
+                    { data: 'username' },
+                    { data: 'email' },
+                    { data: 'role' },
+                    { data: 'created_at' },
+                    {
+                        data: 'is_verified',
+                        render: function (data) {
+                            return data ? 'Yes' : 'No';
+                        }
+                    },
+                    {
+                        data: 'id',
+                        render: function (id) {
+                            return `
+                        <button class="btn btn-danger btn-sm delete-user-btn" data-id="${id}">
+                            Delete
+                        </button>
+                    `;
+                        }
+                    }
+                ],
+                destroy: true,
+                paging: true,
+                searching: true
+            });
 
             // Delete user
             $(document).on('click', '.delete-user-btn', function () {
                 const userId = $(this).data('id');
-                $.post('includes/delete_user.php', { id: userId }, function (response) {
-                    if (response.success) {
-                        fetchUsers();
-                    } else {
-                        alert(response.message);
-                    }
-                }, 'json');
+                if (confirm('Are you sure you want to delete this user?')) {
+                    $.post('includes/delete_user.php', { id: userId }, function (response) {
+                        if (response.success) {
+                            table.ajax.reload(null, false); // Reload without resetting pagination
+                        } else {
+                            alert(response.message);
+                        }
+                    }, 'json');
+                }
             });
 
-            // Add user
+            // Add user form submit
             $('#add-user-form').on('submit', function (e) {
                 e.preventDefault();
                 $.post('includes/add_user.php', $(this).serialize(), function (response) {
                     if (response.success) {
                         $('#add-user-modal').modal('hide');
-                        fetchUsers();
+                        $('#add-user-form')[0].reset();
+                        table.ajax.reload();
                         alert(response.message);
                     } else {
                         alert(response.message);
@@ -1263,6 +1280,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 $('#add-user-modal').modal('show');
             });
         });
+
     </script>
     <script src="assets/admin/assets/plugins/jquery/jquery.min.js"></script>
     <script src="assets/admin/assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -1280,3 +1298,4 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="assets/admin/assets/js/sleek.js"></script>
     <link href="assets/admin/assets/options/optionswitch.css" rel="stylesheet">
     <script src="assets/admin/assets/options/optionswitcher.js"></script>
+    <script src="assets/js/jquery.dataTables.min.js"></script>
