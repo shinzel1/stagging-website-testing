@@ -111,6 +111,7 @@ $transactions = $transactionsStmt->fetchAll(PDO::FETCH_ASSOC);
         </nav>
         <!-- Sidebar -->
     </header>
+    <main>
     <h2 class="mb-4">Loyalty Program Management</h2>
 
     <!-- Settings Section -->
@@ -197,6 +198,7 @@ $transactions = $transactionsStmt->fetchAll(PDO::FETCH_ASSOC);
             </table>
         </div>
     </div>
+    </main>
 </div>
 
 <!-- JavaScript -->

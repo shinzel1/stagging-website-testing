@@ -23,7 +23,7 @@ if (!isset($_SESSION['user_id'])) {
 ?>
 
 <div class="container p-5">
-<style>
+    <style>
         @media (min-width: 991.98px) {
             main {
                 padding-left: 240px;
@@ -65,7 +65,7 @@ if (!isset($_SESSION['user_id'])) {
         }
     </style>
 
-<header>
+    <header>
         <!-- Sidebar -->
         <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
             <div class="position-sticky">
@@ -112,7 +112,7 @@ if (!isset($_SESSION['user_id'])) {
         <!-- Sidebar -->
     </header>
 
-
+<main>
     <h2 class="mb-4 pt-5">Categories</h2>
     <p style="text-align: end;">
         <button type="button" class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
@@ -145,7 +145,7 @@ if (!isset($_SESSION['user_id'])) {
                                     <textarea class="form-control" id="description" name="description" rows="3"
                                         required></textarea>
                                 </div>
-                                <div class="mb-3 text-end" >
+                                <div class="mb-3 text-end">
                                     <button type="button" class="btn btn-secondary"
                                         data-bs-dismiss="modal">Close</button>
                                     <button type="submit" class="btn btn-primary">Save</button>
@@ -176,7 +176,7 @@ if (!isset($_SESSION['user_id'])) {
         </div>
     </div>
 </div>
-
+</main>
 <!-- Category Details Modal -->
 <div class="modal fade" id="categoryModal" tabindex="-1" aria-labelledby="categoryModalLabel" aria-hidden="true">
     <div class="modal-dialog">

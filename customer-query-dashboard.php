@@ -98,6 +98,7 @@ require_once("config/database_connection.php");
         </nav>
         <!-- Sidebar -->
     </header>
+    <main>
     <div class="pt-5">
         <table class="table table-bordered">
             <thead>
@@ -181,4 +182,5 @@ require_once("config/database_connection.php");
         // Load queries on page load
         $(document).ready(loadQueries);
     </script>
+    </main>
 </div>

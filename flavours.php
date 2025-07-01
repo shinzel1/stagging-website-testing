@@ -93,6 +93,7 @@
         </nav>
         <!-- Sidebar -->
     </header>
+    <main>
     <h2 class="mb-4 pt-5">Flavours <div class="text-end">
             <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addFlavourModal">Add New
                 Flavour</button>
@@ -233,3 +234,4 @@
 
     });
 </script>
+</main>

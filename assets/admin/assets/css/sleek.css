@@ -14835,12 +14835,6 @@ div.copied {
   }
 }
 
-@media (min-width: 768px) {
-  .navbar {
-    padding-right: 4.5rem;
-  }
-}
-
 .navbar .sidebar-offcanvas-toggle,
 .navbar .sidebar-toggle {
   background-color: transparent;

@@ -96,6 +96,7 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
         </nav>
         <!-- Sidebar -->
     </header>
+    <main>
     <h2>Associate Two Products as Variations</h2>
     <form action="includes/add_variation.php" method="POST">
         <div class="mb-3">
@@ -120,4 +121,5 @@ $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
         <button type="submit" class="btn btn-success">Link Products</button>
     </form>
+    </main>
 </div>
