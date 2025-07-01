@@ -24,6 +24,8 @@ require_once 'includes/functions.php';
   <meta name="author" content="">
   <meta name="keywords" content="">
   <meta name="description" content="">
+  <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
+
   <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
   <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
   <link href="assets/css/poppinscss2.css" rel="stylesheet">
@@ -490,7 +492,7 @@ require_once 'includes/functions.php';
                 <li class="nav-item">
                   <a href="cart.php" class="p-2 mx-1 nav-link">
                     <i class="fa-solid fa-cart-shopping"></i>
-                    <span class='badge badge-warning' id='lblCartCount'></span>Cart</a>
+                    <span class='badge badge-warning' id='lblCartCount'></span></a>
                 </li>
                 <style>
                   .badge {
@@ -585,7 +587,6 @@ require_once 'includes/functions.php';
     .navbar {
       background-color: white;
       box-shadow: -1px 7px 15px -4px rgba(0, 0, 0, 0.76);
-      padding: 1rem;
 
     }
 

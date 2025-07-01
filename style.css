@@ -804,7 +804,6 @@ a.btn-link.text-light:after {
 
   .navbar.fixed-top .navbar-collapse,
   .navbar.sticky-top .navbar-collapse {
-    overflow-y: auto;
     max-height: 90vh;
     margin-top: 10px;
   }
