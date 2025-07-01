@@ -177,9 +177,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </span>
                                 </div>
                             </div>
-                            <div class="card-body pt-0 pb-5">
+                            <div class="card-body pt-0 pb-5" style="overflow-x: scroll;">
                                 <table class="table card-table table-responsive table-responsive-large"
-                                    style="width:100%" id="user-table">
+                                    style="width:100% ;" id="user-table">
                                     <thead>
                                         <tr>
                                             <th>ID</th>
@@ -1270,38 +1270,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     <script src='assets/admin/assets/plugins/charts/Chart.min.js'></script>
     <script src='assets/admin/assets/js/chart.js'></script>
-
-
-
-
     <script src='assets/admin/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.js'></script>
     <script src='assets/admin/assets/plugins/jvectormap/jquery-jvectormap-world-mill.js'></script>
     <script src='assets/admin/assets/js/vector-map.js'></script>
-
     <script src='assets/admin/assets/plugins/daterangepicker/moment.min.js'></script>
     <script src='assets/admin/assets/plugins/daterangepicker/daterangepicker.js'></script>
     <script src='assets/admin/assets/js/date-range.js'></script>
-
-
-
-
-
-
-
-
     <script src='assets/admin/assets/plugins/toastr/toastr.min.js'></script>
-
-
-
-
-
-
-
-
-
-
-
-
     <script src="assets/admin/assets/js/sleek.js"></script>
     <link href="assets/admin/assets/options/optionswitch.css" rel="stylesheet">
     <script src="assets/admin/assets/options/optionswitcher.js"></script>
