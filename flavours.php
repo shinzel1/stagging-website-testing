@@ -47,7 +47,7 @@
         }
     </style>
 
-<header>
+    <header>
         <!-- Sidebar -->
         <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
             <div class="position-sticky">
@@ -93,11 +93,12 @@
         </nav>
         <!-- Sidebar -->
     </header>
-    <h2 class="mb-4 pt-5">Flavours</h2>
-    <p class="text-end">
-        <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addFlavourModal">Add New
-            Flavour</button>
-    </p>
+    <h2 class="mb-4 pt-5">Flavours <div class="text-end">
+            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addFlavourModal">Add New
+                Flavour</button>
+        </div>
+    </h2>
+
 
     <div class="modal fade" id="addFlavourModal" tabindex="-1" aria-labelledby="addFlavourLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -128,7 +129,7 @@
     <div class="card">
         <div class="card-header">Flavour List</div>
         <div class="card-body">
-            <table id="flavour-table" class="table table-bordered">
+            <table id="flavour-table" class="table table-striped table-hover">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -231,9 +232,4 @@
         }
 
     });
-
-
-
 </script>
-
-<?php include 'includes/footer.php'; ?>
