@@ -5,7 +5,12 @@ session_start(); // Start session to get user ID
 
 // Get logged-in user ID (if available)
 $user_id = $_SESSION['user_id'] ?? null;
-
+if (!isset($_SESSION['user_id'])) {
+    $isAdmin = null;
+} else {
+    // Check if the user is an admin
+    $isAdmin = $_SESSION['role'] === 'admin';
+}
 // Fetch products based on search term
 if (isset($_POST['searchTerm'])) {
     $searchTerm = '%' . $_POST['searchTerm'] . '%';
@@ -17,9 +22,11 @@ if (isset($_POST['searchTerm'])) {
                 OR products.categories LIKE CONCAT('%,', :searchTerm, ',%')
                 OR products.categories LIKE CONCAT(:searchTerm, ',%')
                 OR products.categories LIKE CONCAT('%,', :searchTerm)
-                OR products.categories LIKE :searchTerm)
-            AND products.hide_product = 0  -- Ensure only visible products are fetched
-        ";
+                OR products.categories LIKE :searchTerm)";
+
+        if (!$isAdmin) {
+            $query .= " AND p.hide_product = 0";
+        }
         $stmt = $pdo->prepare($query);
         $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
         $stmt->execute();
@@ -38,7 +45,7 @@ if (isset($_POST['searchTerm'])) {
     } catch (PDOException $e) {
         echo json_encode(["success" => false, "message" => "Failed to fetch products: " . $e->getMessage()]);
     }
-} 
+}
 
 // Fetch products based on category, price, and rating filters
 elseif (isset($_POST['category']) || isset($_POST['min_price']) || isset($_POST['rating'])) {
@@ -52,7 +59,10 @@ elseif (isset($_POST['category']) || isset($_POST['min_price']) || isset($_POST[
               FROM products p
               INNER JOIN product_categories pc ON p.id = pc.product_id
               INNER JOIN categories c ON pc.category_id = c.id
-              WHERE p.hide_product = 0";  // Ensure only visible products are fetched
+              ";  // Ensure only visible products are fetched
+    if (!$isAdmin) {
+        $query .= " WHERE p.hide_product = 0";
+    }
 
     $params = [];
 
@@ -61,7 +71,7 @@ elseif (isset($_POST['category']) || isset($_POST['min_price']) || isset($_POST[
         $query .= " AND c.id = :category";
         $params[":category"] = $category;
     }
-    
+
     // Add price filter if provided
     if ($price1 >= 0 && $price2 > $price1) {
         $query .= " AND p.price BETWEEN :price1 AND :price2";

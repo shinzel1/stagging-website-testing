@@ -95,9 +95,10 @@ if (isset($_GET["search"])) {
                 LEFT JOIN categories c ON pc.category_id = c.id
                 WHERE (p.name LIKE :searchTerm
                    OR p.description LIKE :searchTerm
-                   OR c.name LIKE :searchTerm)
-                   AND p.hide_product = 0
-            ";
+                   OR c.name LIKE :searchTerm)";
+            if (!$isAdmin) {
+                $query .= " AND p.hide_product = 0";
+            }
 
             $stmt = $pdo->prepare($query);
             $stmt->bindParam(':searchTerm', $searchTerm, PDO::PARAM_STR);
@@ -112,7 +113,8 @@ if (isset($_GET["search"])) {
 } else {
     try {
         // Fetch only products that are not hidden
-        $stmt = $pdo->query("SELECT * FROM products WHERE hide_product = 0 ORDER BY created_at DESC LIMIT 10");
+        $qr = "SELECT * FROM products " . (!$isAdmin ?  " WHERE hide_product = 0 " : "")   . " ORDER BY created_at DESC LIMIT 10";
+        $stmt = $pdo->query($qr);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
         die("Error: " . $e->getMessage());
