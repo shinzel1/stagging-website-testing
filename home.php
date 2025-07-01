@@ -1,7 +1,21 @@
+<?php
+require_once("config/database_connection.php");
+
+try {
+    $query = "SELECT name, title, description, image FROM categories";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute();
+    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
+} catch (PDOException $e) {
+    die("Failed to fetch categories: " . $e->getMessage());
+}
+
+?>
 <style>
     .ProductImage {
         width: 13rem;
     }
+
     .wishlist-active {
         background-color: #e02725;
         color: white;
@@ -102,21 +116,6 @@
         </div>
         <div class="row">
             <div class="col-md-12">
-
-                <?php
-                require_once("config/database_connection.php");
-
-                try {
-                    $query = "SELECT name, title, description, image FROM categories";
-                    $stmt = $pdo->prepare($query);
-                    $stmt->execute();
-                    $categories = $stmt->fetchAll(PDO::FETCH_ASSOC);
-                } catch (PDOException $e) {
-                    die("Failed to fetch categories: " . $e->getMessage());
-                }
-
-                ?>
-
                 <div class="category-carousel swiper">
                     <div class="swiper-wrapper">
                         <?php
@@ -241,7 +240,8 @@
                                             ?>
 
                                             <div class="col-2">
-                                                <span class="btn btn-secondary rounded-1 p-2 fs-6 wishlist-btn <?= $is_wishlisted ? 'wishlist-active' : '' ?>"
+                                                <span
+                                                    class="btn btn-secondary rounded-1 p-2 fs-6 wishlist-btn <?= $is_wishlisted ? 'wishlist-active' : '' ?>"
                                                     data-product-id="<?= $product_id ?>">
                                                     <svg width="18" height="18">
                                                         <use xlink:href="#heart"></use>
