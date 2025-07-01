@@ -526,7 +526,7 @@ require_once 'includes/functions.php';
             <?php endif; ?>
           <?php else: ?>
             <li class="nav-item">
-              <a class="nav-link" href="login.php"><i class="fa fa-user"></i> Login</a>
+              <a class="nav-link" href="login.php"> Login</a>
             </li>
           <?php endif; ?>
         </ul>
