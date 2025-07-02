@@ -79,16 +79,16 @@
                             <a href="/" class="nav-link">Home</a>
                         </li>
                         <li class="menu-item">
-                            <a href="/product.php" class="nav-link">Featured Products</a>
+                            <a href="product.php" class="nav-link">Featured Products</a>
                         </li>
                         <li class="menu-item">
-                            <a href="/cart.php" class="nav-link">Cart</a>
+                            <a href="cart.php" class="nav-link">Cart</a>
                         </li>
                         <!-- <li class="menu-item">
                             <a href="/about.php" class="nav-link">About us</a>
                         </li> -->
                         <li class="menu-item">
-                            <a href="/contact.php" class="nav-link">Contact us </a>
+                            <a href="contact.php" class="nav-link">Contact us </a>
                         </li>
                     </ul>
                 </div>
