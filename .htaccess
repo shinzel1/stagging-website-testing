@@ -1,9 +1,9 @@
 RewriteEngine On
-RewriteBase /staging.crowndevour.com/
+RewriteBase https://staging.crowndevour.com/
 
 # Redirect from old format to new SEO URL (optional)
 RewriteCond %{THE_REQUEST} /product\.php/([^\s]+) [NC]
-RewriteRule ^product\.php/(.*)$ /staging.crowndevour.com/product/$1 [R=301,L]
+RewriteRule ^product\.php/(.*)$ https://staging.crowndevour.com/staging.crowndevour.com/product/$1 [R=301,L]
 
 # Route /product/slug-141 to product.php?id=141
 RewriteRule ^product/(.*)-([0-9]+)$ product.php?id=$2 [L,QSA]
