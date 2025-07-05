@@ -10,6 +10,7 @@
         font-weight: bold;
     }
 </style>
+
 <?php
 $is_logged_in = isset($_SESSION['user_id']);
 
@@ -123,6 +124,13 @@ $flavour_list = [
         margin-top: .5em !important;
     }
 </style>
+
+<head>
+    <title><?= htmlspecialchars($product['name']) ?> | Shop Now</title>
+    <meta name="description" content="<?= htmlspecialchars($product['description']) ?>">
+
+</head>
+
 <!-- content -->
 <section class="pt-5">
     <div class="container p-5">
@@ -134,9 +142,7 @@ $flavour_list = [
                     $imageSrc = !empty($product['image_url']) ? htmlspecialchars($product['image_url']) : $defaultImage;
                     ?>
                     <img id="mainImage" style="max-width: 100%; max-height: 100vh; margin: auto;" class="rounded-4 fit"
-                        src="<?= $imageSrc ?>" data-img="image_url" />
-
-
+                        src="<?= $imageSrc ?>" data-img="image_url" alt="<?= htmlspecialchars($product['name']) ?>" />
                     <?php if ($is_logged_in): ?>
                         <?php if ($_SESSION['role'] == 'admin'): ?>
                             <label for="imageUpload" class="position-absolute" style="top: 10px; right: 10px; cursor: pointer">
@@ -148,9 +154,6 @@ $flavour_list = [
                             </button>
                         <?php endif; ?>
                     <?php endif; ?>
-
-
-
                 </div>
 
                 <form id="imageUploadForm" enctype="multipart/form-data">
@@ -413,7 +416,8 @@ $flavour_list = [
                             <div class="btn-group">
                                 <?php foreach ($variations as $variation): ?>
                                     <?php if ($variation['id'] !== $product['id']): // Don't show the current product ?>
-                                        <a href="product-details.php?id=<?= $variation['id']; ?>" class="btn btn-sm btn-secondary">
+                                        <a href="product/<?= htmlspecialchars(substr(str_replace(" ", "-", preg_replace('/[^A-Za-z0-9 ]/', '', $variation['name'])), 0, 55)); ?>-<?= urlencode($variation['id']); ?>"
+                                            class="btn btn-sm btn-secondary">
                                             <?= htmlspecialchars($variation['name']); ?>
                                         </a>
                                     <?php endif; ?>
@@ -1176,12 +1180,12 @@ $flavour_list = [
                     response.products.forEach(product => {
                         similarProductsHtml += `
                             <div class="d-flex mb-3">
-                                <a href="#" class="me-3">
+                                <span class="me-3">
                                     <img src="${product.image_url}"
                                         style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" alt="${product.name}" />
-                                </a>
+                                </span>
                                 <div class="info">
-                                    <a href="product-details.php?id=${product.id}" class="nav-link mb-1">
+                                    <a href="product/${(((product?.name?.trim()?.replaceAll(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).replaceAll("--", "-")).substring(0,50)}-${encodeURIComponent(product.id)}" class="nav-link mb-1">
                                         ${product.name}
                                     </a>
                                     <strong class="text-dark"> ₹${product.price}</strong>
@@ -1216,7 +1220,7 @@ $flavour_list = [
                 success: function (response) {
                     if (response.success) {
                         alert("Product duplicated successfully!");
-                        window.location.href = `product-details.php?id=${response.new_id}`;
+                        window.location.href = `product.php?id=${response.new_id}`;
                     } else {
                         alert("Failed to duplicate: " + response.message);
                     }
@@ -1229,47 +1233,47 @@ $flavour_list = [
     });
 </script>
 <script>
-$(document).ready(function () {
-    function loadFlavours() {
-        $.getJSON('includes/get_flavour_list.php', function (res) {
-            if (res.success) {
-                const dropdown = $('#editFlavour');
-                dropdown.empty();
-                dropdown.append(`<option value="" disabled selected>Select one</option>`);
-                res.flavours.forEach(f => {
-                    dropdown.append(`<option value="${f}">${f}</option>`);
-                });
-            } else {
-                alert("Failed to load flavours: " + res.message);
-            }
-        });
-    }
-
-    // Load flavours on page load
-    loadFlavours();
-
-    // Handle Add Flavour button
-    $('#addFlavourBtn').on('click', function () {
-        const newFlavour = prompt("Enter new flavour name:");
-        if (newFlavour) {
-            $.post('includes/add_flavour.php', { name: newFlavour, description: newFlavour }, function (res) {
-                try {
-                    const response = JSON.parse(res);
-                    if (response.success) {
-                        alert("Flavour added!");
-                        loadFlavours();
-                        $('#editFlavour').val(newFlavour); // auto-select new flavour
-                    } else {
-                        alert("Error: " + response.message);
-                    }
-                } catch (e) {
-                    alert("Unexpected error. Check console.");
-                    console.error(e, res);
+    $(document).ready(function () {
+        function loadFlavours() {
+            $.getJSON('includes/get_flavour_list.php', function (res) {
+                if (res.success) {
+                    const dropdown = $('#editFlavour');
+                    dropdown.empty();
+                    dropdown.append(`<option value="" disabled selected>Select one</option>`);
+                    res.flavours.forEach(f => {
+                        dropdown.append(`<option value="${f}">${f}</option>`);
+                    });
+                } else {
+                    alert("Failed to load flavours: " + res.message);
                 }
             });
         }
+
+        // Load flavours on page load
+        loadFlavours();
+
+        // Handle Add Flavour button
+        $('#addFlavourBtn').on('click', function () {
+            const newFlavour = prompt("Enter new flavour name:");
+            if (newFlavour) {
+                $.post('includes/add_flavour.php', { name: newFlavour, description: newFlavour }, function (res) {
+                    try {
+                        const response = JSON.parse(res);
+                        if (response.success) {
+                            alert("Flavour added!");
+                            loadFlavours();
+                            $('#editFlavour').val(newFlavour); // auto-select new flavour
+                        } else {
+                            alert("Error: " + response.message);
+                        }
+                    } catch (e) {
+                        alert("Unexpected error. Check console.");
+                        console.error(e, res);
+                    }
+                });
+            }
+        });
     });
-});
 </script>
 
 <script src="assets/js/select2.min.js"></script>

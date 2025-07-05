@@ -48,7 +48,6 @@ try {
                 <h2 class="display-1 ls-1 text-white">
                     <span class="fw-bold">Fuel Your Strength</span> <span> –
                         Premium Supplements for Every Workout. </span>
-
                 </h2>
                 <!-- <p class="fs-4">Complete Nurition Store</p> -->
                 <div class="text-white">
@@ -193,7 +192,7 @@ try {
                         ?>
                         <div class="col">
                             <div class="product-item position-relative">
-                                <a href="product-details.php?id=<?= urlencode($product['id']); ?>"
+                                <a href="product/<?= htmlspecialchars(substr(str_replace(" ", "-", preg_replace('/[^A-Za-z0-9 ]/', '', $product['name'])), 0, 55)); ?>-<?= urlencode($product['id']); ?>"
                                     title="<?= htmlspecialchars($product['name']); ?>">
                                     <figure class="position-relative">
 
@@ -362,13 +361,13 @@ try {
                 </div>
             </div>
         </div>
-        <div class="row">
+        <div class="row"> 
             <div class="col-md-12">
                 <div class="swiper">
                     <div class="swiper-wrapper">
                         <?php foreach ($featureProducts as $product): ?>
                             <div class="product-item position-relative swiper-slide">
-                                <a href="product-details.php?id=<?= urlencode($product['id']); ?>"
+                                <a href="product/<?= htmlspecialchars(substr(str_replace(" ", "-", preg_replace('/[^A-Za-z0-9 ]/', '', $product['name'])), 0, 55)); ?>-<?= urlencode($product['id']); ?>"
                                     title="<?= htmlspecialchars($product['name']); ?>">
                                     <figure class="position-relative">
 
@@ -463,7 +462,7 @@ try {
                                     breakpoints: {
                                         320: { slidesPerView: 1, spaceBetween: 10 },
                                         768: { slidesPerView: 2, spaceBetween: 15 },
-                                        1024: { slidesPerView: 4, spaceBetween: 20 },
+                                        1024: { slidesPerView: 5, spaceBetween: 20 },
                                     },
                                 });
                             });

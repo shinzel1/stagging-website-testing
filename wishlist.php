@@ -56,7 +56,7 @@ if (!isset($_SESSION['user_id'])) {
                         resultsHtml += `
                         <div class="col">
                             <div class="product-item position-relative">
-                                <a href="product-details.php?id=${encodeURIComponent(product.id)}" title="${product.name}">
+                                <a href="product.php?id=${encodeURIComponent(product.id)}" title="${product.name}">
                                     <figure class="position-relative">
                                         <img src="${product.image_url}" alt="${product.name}" class="tab-image">
                                         ${product.quantity <= 0 ? `

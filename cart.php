@@ -154,7 +154,7 @@ $_SESSION['promo_discount'] = 0;
                                         <div class="border-bottom pb-3">
                                             <div class="cart-item">
                                                 <div class="d-flex">
-                                                    <a href="product-details.php?id=<?= $item['product_id'] ?>">
+                                                    <a href="product.php?id=<?= $item['product_id'] ?>">
                                                         <img src="<?= $item['image_url'] ?>" alt="Product"
                                                             class="product-img me-3">
                                                     </a>

@@ -113,7 +113,7 @@ if (isset($_GET["search"])) {
 } else {
     try {
         // Fetch only products that are not hidden
-        $qr = "SELECT * FROM products " . (!$isAdmin ?  " WHERE hide_product = 0 " : "")   . " ORDER BY created_at DESC LIMIT 10";
+        $qr = "SELECT * FROM products " . (!$isAdmin ? " WHERE hide_product = 0 " : "") . " ORDER BY created_at DESC LIMIT 10";
         $stmt = $pdo->query($qr);
         $products = $stmt->fetchAll(PDO::FETCH_ASSOC);
     } catch (PDOException $e) {
@@ -169,7 +169,6 @@ $flavour_list = [
     "Rainbow Sherbet"
 ]
     ?>
-
 
 <div class="container pt-5 pb-5">
     <?php if ($error): ?>
@@ -356,7 +355,7 @@ $flavour_list = [
                 id="product-results">
                 <?php foreach ($products as $product): ?>
                     <div class="product-item position-relative">
-                        <a href="product-details.php?id=<?= urlencode($product['id']); ?>"
+                        <a href="product/<?= htmlspecialchars(substr(str_replace(" ", "-", preg_replace('/[^A-Za-z0-9 ]/', '', $product['name'])), 0, 55)); ?>-<?= urlencode($product['id']); ?>"
                             title="<?= htmlspecialchars($product['name']); ?>">
                             <figure class="position-relative">
 
@@ -497,7 +496,7 @@ $flavour_list = [
                                 resultsHtml += `
                         <div class="col">
                             <div class="product-item position-relative">
-                                <a href="product-details.php?id=${encodeURIComponent(product.id)}" title="${product.name}">
+                                <a href="product/${((product?.name?.replace(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).substring(0,55)}-${encodeURIComponent(product.id)}" title="${product.name}">
                                     <figure class="position-relative">
                                         <img src="${product.image_url}" alt="${product.name}" class="tab-image">
                                         ${product.quantity <= 0 ? `
@@ -691,7 +690,7 @@ $flavour_list = [
                                     const productHTML = `
                                     <div class="col">
                                         <div class="product-item position-relative">
-                                        <a href="product-details.php?id=${encodeURIComponent(product.id)}" title="${product.name}">
+                                        <a href="product/${((product?.name?.replace(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).substring(0,55)}-${encodeURIComponent(product.id)}" title="${product.name}">
                                             <figure class="position-relative">
                                                     <img src="${product.image_url}" alt="${product.name}" class="tab-image">
                                                 ${product.quantity <= 0 ? `
@@ -819,7 +818,7 @@ $flavour_list = [
                     },
                     {
                         data: "name", render: function (data, type, row) {
-                            return `<a href="product-details.php?id=${row.id}" title="${data}">${data}</a>`;
+                            return `<a href="product/${((data?.replace(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).substring(0,55)}-${encodeURIComponent(row.id)}" title="${data}">${data}</a>`;
                         }
                     },
                     { data: "description" },

@@ -15,6 +15,7 @@ require_once 'includes/functions.php';
 <head>
   <title>Nutrizone</title>
   <meta charset="utf-8">
+  <base href="/staging.crowndevour.com/">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="format-detection" content="telephone=no">
@@ -663,7 +664,7 @@ require_once 'includes/functions.php';
                 const resultsHtml = response.products
                   .map(product => `
                 <div class="p-2">
-                  <a href="product-details.php?id=${product.id}" class="d-block text-dark">
+                  <a href="product.php?id=${product.id}" class="d-block text-dark">
                   <img src="${product.image_url}" alt="${product.name}" style="width: 50px; height: 50px;"/>
                     ${product.name?.substring(0, 100)}
                   </a>
