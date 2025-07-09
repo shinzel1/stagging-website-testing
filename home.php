@@ -192,7 +192,7 @@ try {
                         ?>
                         <div class="col">
                             <div class="product-item position-relative">
-                                <a href="product/<?= htmlspecialchars(substr(str_replace(" ", "-", preg_replace('/[^A-Za-z0-9 ]/', '', $product['name'])), 0, 55)); ?>-<?= urlencode($product['id']); ?>"
+                                <a href="product/<?= htmlspecialchars($product['slug']); ?>-<?= urlencode($product['id']); ?>"
                                     title="<?= htmlspecialchars($product['name']); ?>">
                                     <figure class="position-relative">
 
@@ -367,7 +367,7 @@ try {
                     <div class="swiper-wrapper">
                         <?php foreach ($featureProducts as $product): ?>
                             <div class="product-item position-relative swiper-slide">
-                                <a href="product/<?= htmlspecialchars(substr(str_replace(" ", "-", preg_replace('/[^A-Za-z0-9 ]/', '', $product['name'])), 0, 55)); ?>-<?= urlencode($product['id']); ?>"
+                                <a href="product/<?= htmlspecialchars($product['slug']); ?>-<?= urlencode($product['id']); ?>"
                                     title="<?= htmlspecialchars($product['name']); ?>">
                                     <figure class="position-relative">
 

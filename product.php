@@ -438,6 +438,10 @@ $flavour_list = [
                         <input type="text" class="form-control" id="editName" name="name" required>
                     </div>
                     <div class="mb-3">
+                        <label for="editName" class="form-label">Slug Url</label>
+                        <input type="text" class="form-control" id="editSlugUrl" name="slug" required>
+                    </div>
+                    <div class="mb-3">
                         <label for="editImage" class="form-label">Image URL</label>
                         <input type="text" class="form-control" id="editImage" name="image_url" required>
                     </div>
@@ -1037,6 +1041,7 @@ $flavour_list = [
                         // Populate modal fields with the response data
                         $('#editProductId').val(product.id);
                         $('#editName').val(product.name);
+                        $('#editSlugUrl').val(product?.slug)
                         $('#editImage').val(product.image_url);
                         $('#editImageShow').html(`<img src="${product.image_url}" alt="${product.name}" style="width: 50px; height: 50px;"/>`)
                         $('#editDescription').val(product.description);
@@ -1185,7 +1190,7 @@ $flavour_list = [
                                         style="min-width: 96px; height: 96px;" class="img-md img-thumbnail" alt="${product.name}" />
                                 </span>
                                 <div class="info">
-                                    <a href="product/${(((product?.name?.trim()?.replaceAll(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).replaceAll("--", "-")).substring(0,50)}-${encodeURIComponent(product.id)}" class="nav-link mb-1">
+                                    <a href="product/${product?.slug}-${encodeURIComponent(product.id)}" class="nav-link mb-1">
                                         ${product.name}
                                     </a>
                                     <strong class="text-dark"> ₹${product.price}</strong>

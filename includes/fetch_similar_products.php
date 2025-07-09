@@ -21,7 +21,7 @@ if (isset($_GET['product_id'])) {
                 // Step 2: Fetch similar products based on category matches
                 $placeholders = implode(',', array_fill(0, count($categories), '?'));
                 $stmt = $pdo->prepare("
-                SELECT DISTINCT p.id, p.name, p.image_url, p.description, p.price 
+                SELECT DISTINCT p.id,p.slug, p.name, p.image_url, p.description, p.price 
                 FROM products p
                 INNER JOIN product_categories pc ON p.id = pc.product_id
                 WHERE pc.category_id IN ($placeholders) 

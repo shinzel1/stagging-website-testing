@@ -25,7 +25,7 @@ $userId = $_SESSION['user_id'];
 
 // Fetch cart items
 try {
-    $stmt = $pdo->prepare("SELECT c.id as cart_id,c.product_id, c.quantity,p.image_url, p.name, p.description, p.price FROM cart c JOIN products p ON c.product_id = p.id WHERE c.user_id = ?");
+    $stmt = $pdo->prepare("SELECT c.id as cart_id,c.product_id, c.quantity,p.slug,p.image_url, p.name, p.description, p.price FROM cart c JOIN products p ON c.product_id = p.id WHERE c.user_id = ?");
     $stmt->execute([$userId]);
     $cartItems = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (PDOException $e) {
@@ -154,7 +154,7 @@ $_SESSION['promo_discount'] = 0;
                                         <div class="border-bottom pb-3">
                                             <div class="cart-item">
                                                 <div class="d-flex">
-                                                    <a href="product.php?id=<?= $item['product_id'] ?>">
+                                                    <a href="product.php/<?= $item['slug'] ?>-<?= $item['product_id'] ?>">
                                                         <img src="<?= $item['image_url'] ?>" alt="Product"
                                                             class="product-img me-3">
                                                     </a>

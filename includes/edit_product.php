@@ -3,10 +3,22 @@ require_once("../config/database_connection.php");
 
 $response = ['success' => false, 'error' => ''];
 
+function slugify($string)
+{
+    // Convert to lowercase
+    $string = strtolower($string);
+    // Replace non-alphanumeric characters with hyphens
+    $string = preg_replace('/[^a-z0-9]+/i', '-', $string);
+    // Trim hyphens from both ends
+    return trim($string, '-');
+}
+
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     try {
         $id = $_POST['id'];
         $name = htmlspecialchars($_POST['name'], ENT_QUOTES, 'UTF-8');
+        $slug = slugify($_POST['slug']);
         $description = htmlspecialchars($_POST['description'], ENT_QUOTES, 'UTF-8');
         $price = $_POST['price'];
         $quantity = $_POST['quantity'];
@@ -73,10 +85,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // Update product
         $stmt = $pdo->prepare("
             UPDATE products 
-            SET name = ?, description = ?, price = ?, quantity = ?, seller = ?, rating = ?, reviews = ?, image_url = ? , featured_product = ?, hide_product = ?,flavour = ? 
+            SET name = ?,slug=?, description = ?, price = ?, quantity = ?, seller = ?, rating = ?, reviews = ?, image_url = ? , featured_product = ?, hide_product = ?,flavour = ? 
             WHERE id = ?
         ");
-        $stmt->execute([$name, $description, $price, $quantity, $seller, $rating, $reviews, $imageUrl, $isfeatured, $isHideProduct, $flavour, $id]);
+        $stmt->execute([$name, $slug, $description, $price, $quantity, $seller, $rating, $reviews, $imageUrl, $isfeatured, $isHideProduct, $flavour, $id]);
 
         // Step 1: Clear existing category relationships
         $pdo->prepare("DELETE FROM product_categories WHERE product_id = ?")->execute([$id]);

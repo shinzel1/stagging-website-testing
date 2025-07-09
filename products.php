@@ -312,7 +312,8 @@ $flavour_list = [
                             <?php foreach ($categoriess as $category): ?>
                                 <li class="my-3">
                                     <span class="d-block u-link-v5 g-color-gray-dark-v4 g-color-primary--hover"
-                                        data-id="<?= urlencode($category['id']); ?>">
+                                        data-id="<?= urlencode($category['id']); ?>"
+                                        data-value="<?= htmlspecialchars($category['name']); ?>">
                                         <?= htmlspecialchars($category['name']); ?>
                                         <span class="float-end g-font-size-12"><?= $category['product_count']; ?></span>
                                     </span>
@@ -355,7 +356,7 @@ $flavour_list = [
                 id="product-results">
                 <?php foreach ($products as $product): ?>
                     <div class="product-item position-relative">
-                        <a href="product/<?= htmlspecialchars(substr(str_replace(" ", "-", preg_replace('/[^A-Za-z0-9 ]/', '', $product['name'])), 0, 55)); ?>-<?= urlencode($product['id']); ?>"
+                        <a href="product/<?= htmlspecialchars($product['slug']); ?>-<?= urlencode($product['id']); ?>"
                             title="<?= htmlspecialchars($product['name']); ?>">
                             <figure class="position-relative">
 
@@ -456,11 +457,13 @@ $flavour_list = [
         function fetchProducts() {
             let category = $(".list-unstyled span.active").data("id") || "";
             let priceRange = $("#rangeSlider1").slider("values");
-
             let formData = new FormData();
+            let val = $(".list-unstyled span.active").data("value")
             formData.append("category", category);
             formData.append("min_price", priceRange[0]);
             formData.append("max_price", priceRange[1]);
+            console.log(val)
+            $('#search-input').val(val)
 
             $.ajax({
                 url: 'includes/fetch_products.php',
@@ -496,7 +499,7 @@ $flavour_list = [
                                 resultsHtml += `
                         <div class="col">
                             <div class="product-item position-relative">
-                                <a href="product/${((product?.name?.replace(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).substring(0,55)}-${encodeURIComponent(product.id)}" title="${product.name}">
+                                <a href="product/${product?.slug}-${encodeURIComponent(product.id)}" title="${product.name}">
                                     <figure class="position-relative">
                                         <img src="${product.image_url}" alt="${product.name}" class="tab-image">
                                         ${product.quantity <= 0 ? `
@@ -554,6 +557,7 @@ $flavour_list = [
 
                         // Attach event listener for wishlist toggle after content is loaded
                         attachWishlistEvent();
+                     
                     } else {
                         alert(response.message);
                     }
@@ -690,7 +694,7 @@ $flavour_list = [
                                     const productHTML = `
                                     <div class="col">
                                         <div class="product-item position-relative">
-                                        <a href="product/${((product?.name?.replace(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).substring(0,55)}-${encodeURIComponent(product.id)}" title="${product.name}">
+                                        <a href="product/${product?.slug}-${encodeURIComponent(product.id)}" title="${product.name}">
                                             <figure class="position-relative">
                                                     <img src="${product.image_url}" alt="${product.name}" class="tab-image">
                                                 ${product.quantity <= 0 ? `
@@ -818,7 +822,7 @@ $flavour_list = [
                     },
                     {
                         data: "name", render: function (data, type, row) {
-                            return `<a href="product/${((data?.replace(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).substring(0,55)}-${encodeURIComponent(row.id)}" title="${data}">${data}</a>`;
+                            return `<a href="product/${((data?.replace(/[^a-zA-Z0-9\s]/g, '')).replaceAll(" ", "-")).substring(0, 55)}-${encodeURIComponent(row.id)}" title="${data}">${data}</a>`;
                         }
                     },
                     { data: "description" },

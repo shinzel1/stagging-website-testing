@@ -3,7 +3,7 @@ require_once("../config/database_connection.php");
 
 try {
     // Prepare the SQL query
-    $stmt = $pdo->prepare("SELECT id, name, image_url, description, price, quantity, categories, seller, rating, reviews,featured_product,hide_product,flavour, created_at FROM products WHERE id = ?");
+    $stmt = $pdo->prepare("SELECT id, name ,slug, image_url, description, price, quantity, categories, seller, rating, reviews,featured_product,hide_product,flavour, created_at FROM products WHERE id = ?");
 
     // Execute the query with the provided product ID
     $stmt->execute([$_POST['product_Id']]);
