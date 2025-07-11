@@ -56,7 +56,7 @@ try {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Order #<?= htmlspecialchars($order['order_id']) ?> Details</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css">
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" />
 </head>
 
 <body>
@@ -68,21 +68,23 @@ try {
             <div class="card-body">
                 <h5 class="card-title">Order Summary</h5>
                 <p><strong>Order ID:</strong> <?= htmlspecialchars($order['order_id']) ?></p>
-                <p><strong>Order Date:</strong> <?= htmlspecialchars(date('d F Y', strtotime($order['created_at']))) ?></p>
+                <p><strong>Order Date:</strong> <?= htmlspecialchars(date('d F Y', strtotime($order['created_at']))) ?>
+                </p>
                 <p><strong>Total Amount (Before Discount):</strong> ₹<?= number_format($order['total_amount'], 2) ?></p>
-                
+
                 <?php if (!empty($order['promo_code'])): ?>
                     <p><strong>Promo Code Applied:</strong> <?= htmlspecialchars($order['promo_code']) ?></p>
                 <?php endif; ?>
 
-                <?php 
+                <?php
                 // Calculate loyalty points discount (Assuming 10 points = ₹1 discount)
                 $loyalty_discount = ($order['loyalty_points'] / 10);
                 if ($loyalty_discount > 0): ?>
                     <p><strong>Loyalty Points Redeemed:</strong> -₹<?= number_format($loyalty_discount, 2) ?></p>
                 <?php endif; ?>
 
-                <p><strong>Final Amount Paid:</strong> <span class="text-success">₹<?= number_format($order['final_amount'], 2) ?></span></p>
+                <p><strong>Final Amount Paid:</strong> <span
+                        class="text-success">₹<?= number_format($order['final_amount'], 2) ?></span></p>
                 <p><strong>Payment Status:</strong> <?= htmlspecialchars(ucfirst($order['payment_status'])) ?></p>
                 <p><strong>Shipping Address:</strong> <?= htmlspecialchars($order['shipping_address']) ?></p>
             </div>
@@ -112,7 +114,8 @@ try {
 
         <!-- Order Actions -->
         <div class="d-flex justify-content-end">
-            <a href="generate_invoice.php?order_id=<?= $order['order_id'] ?>" class="btn btn-success">Download Invoice</a>
+            <a href="generate_invoice.php?order_id=<?= $order['order_id'] ?>" class="btn btn-success">Download
+                Invoice</a>
         </div>
     </div>
 
