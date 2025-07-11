@@ -169,7 +169,15 @@ $flavour_list = [
     "Rainbow Sherbet"
 ]
     ?>
-
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Products</title>
+  <meta name="description" content="Find Products here">
+  <meta name="keywords" content="keywords">
+  <!-- <meta name="robots" content="index, follow"> -->
+  <link rel="canonical" href="https://nutrizone.in/products">
+</head>
 <div class="container pt-5 pb-5">
     <?php if ($error): ?>
         <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>

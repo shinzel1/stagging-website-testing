@@ -38,7 +38,15 @@ try {
         height: auto;
     }
 </style>
-
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Home</title>
+  <meta name="description" content="Home">
+  <meta name="keywords" content="<?php echo $page_keywords; ?>">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://yourdomain.com<?php echo $_SERVER['REQUEST_URI']; ?>">
+</head>
 <section class="pt-5"
     style="background-image: url('assets/images/victor-freitas-WvDYdXDzkhs-unsplash.jpg'); background-repeat: no-repeat; background-size: cover;">
 

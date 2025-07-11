@@ -80,9 +80,16 @@ if (isset($_GET['id'])) {
 </style>
 
 <head>
+    <title></title>
+    <meta name="description" content="">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><?= htmlspecialchars($product['name']) ?> | Shop Now</title>
     <meta name="description" content="<?= htmlspecialchars($product['description']) ?>">
-
+    <!-- <meta name="keywords" content="<?php echo $page_keywords; ?>"> -->
+    <!-- <meta name="robots" content="index, follow"> -->
+    <link rel="canonical"
+        href="https://nutrizone.in/product/<?= htmlspecialchars($product['slug']); ?>-<?= urlencode($product['id']); ?>">
 </head>
 
 <!-- content -->

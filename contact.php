@@ -9,6 +9,16 @@ if (!isset($_SESSION['user_id'])) {
     $isAdmin = $_SESSION['role'] === 'admin';
 }
 ?>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Xontact</title>
+  <meta name="description" content="Contact Us">
+  <meta name="keywords" content="Keywords">
+  <!-- <meta name="robots" content="index, follow"> -->
+  <link rel="canonical" href="https://nutrizone.in/contact">
+</head>
+
 <section class="pt-5 pb-5">
     <div class="contact-section">
         <div class="container pt-5">

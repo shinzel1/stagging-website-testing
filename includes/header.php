@@ -13,7 +13,6 @@ require_once 'includes/functions.php';
 <html lang="en">
 
 <head>
-  <title>Nutrizone</title>
   <meta charset="utf-8">
   <base href="https://staging.crowndevour.com/">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,13 +21,7 @@ require_once 'includes/functions.php';
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="robots" content="noindex">
   <meta name="googlebot" content="noindex">
-  <meta name="author" content="">
-  <meta name="keywords" content="">
-  <meta name="description" content="">
   <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
-
-  <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
-  <!-- <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> -->
   <link href="assets/css/poppinscss2.css" rel="stylesheet">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@9/swiper-bundle.min.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
@@ -36,7 +29,7 @@ require_once 'includes/functions.php';
   <link rel="stylesheet" type="text/css" href="assets/css/vendor.css">
   <link rel="stylesheet" type="text/css" href="style.css">
   <link rel="stylesheet" href="assets/css/style.css">
-  <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+  <script src="assets/js/jquery-3.7.1.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
   <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
 
@@ -481,7 +474,7 @@ require_once 'includes/functions.php';
         <!-- Nav Links -->
         <ul class="navbar-nav ms-auto mb-2 mb-lg-0 fw-bold text-uppercase text-dark align-items-center">
           <li class="nav-item">
-            <a class="nav-link <?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>" href="index.php">Home</a>
+            <a class="nav-link <?php echo ($currentPage == 'index.php') ? 'active' : ''; ?>" href="/">Home</a>
           </li>
           <li class="nav-item">
             <a class="nav-link <?php echo ($currentPage == 'products.php') ? 'active' : ''; ?>"
@@ -664,7 +657,7 @@ require_once 'includes/functions.php';
                 const resultsHtml = response.products
                   .map(product => `
                 <div class="p-2">
-                  <a href="product.php?id=${product.id}" class="d-block text-dark">
+                  <a href="product/${product.slug}-${product.id}" class="d-block text-dark">
                   <img src="${product.image_url}" alt="${product.name}" style="width: 50px; height: 50px;"/>
                     ${product.name?.substring(0, 100)}
                   </a>
