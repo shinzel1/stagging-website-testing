@@ -45,53 +45,7 @@ if (isset($_GET['id'])) {
         die("Error fetching product details: " . $e->getMessage());
     }
 }
-
-
-$flavour_list = [
-    "Vanilla",
-    "Chocolate",
-    "Cookies and Cream",
-    "Caramel Macchiato",
-    "Peanut Butter",
-    "Mocha",
-    "Birthday Cake",
-    "Cinnamon Roll",
-    "White Chocolate",
-    "Strawberry",
-    "Banana",
-    "Mango",
-    "Blueberry",
-    "Raspberry",
-    "Watermelon",
-    "Pineapple",
-    "Peach",
-    "Apple Cinnamon",
-    "Pomegranate",
-    "Coconut",
-    "Passion Fruit",
-    "Dragon Fruit",
-    "Lychee",
-    "Kiwi",
-    "Acai Berry",
-    "Lemon",
-    "Lime",
-    "Orange",
-    "Grapefruit",
-    "Yuzu",
-    "Mint Chocolate",
-    "Matcha Green Tea",
-    "Chai Latte",
-    "Iced Coffee",
-    "Honey Lemon",
-    "Bubblegum",
-    "Blue Raspberry",
-    "Green Apple",
-    "Grape",
-    "Cherry Limeade",
-    "Sour Candy",
-    "Rainbow Sherbet"
-]
-    ?>
+?>
 
 <style>
     .icon-hover:hover {

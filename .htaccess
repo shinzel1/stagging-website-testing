@@ -1,9 +1,17 @@
 RewriteEngine On
 RewriteBase https://staging.crowndevour.com/
 
-# Redirect from old format to new SEO URL (optional)
+# ✅ 1. Redirect /product.php/slug-141 → /product/slug-141
 RewriteCond %{THE_REQUEST} /product\.php/([^\s]+) [NC]
-RewriteRule ^product\.php/(.*)$ https://staging.crowndevour.com/staging.crowndevour.com/product/$1 [R=301,L]
+RewriteRule ^product\.php/(.*)$ product/$1 [R=301,L]
 
-# Route /product/slug-141 to product.php?id=141
+# ✅ 2. SEO URL: /product/slug-141 → product.php?id=141
 RewriteRule ^product/(.*)-([0-9]+)$ product.php?id=$2 [L,QSA]
+
+# ✅ 3. Generic redirect: /page.php → /page (SEO-friendly)
+RewriteCond %{THE_REQUEST} ^[A-Z]{3,}\s/([a-zA-Z0-9_-]+)\.php\s [NC]
+RewriteRule ^([a-zA-Z0-9_-]+)\.php$ $1 [R=301,L]
+
+# ✅ 4. Generic rewrite: /page → /page.php
+RewriteCond %{REQUEST_FILENAME}.php -f
+RewriteRule ^([a-zA-Z0-9_-]+)/?$ $1.php [L]
