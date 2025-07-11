@@ -55,54 +55,8 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
             }
         </style>
 
-        <header>
-            <!-- Sidebar -->
-            <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-                <div class="position-sticky">
-                    <div class="list-group list-group-flush mx-3 mt-4">
-                        <!-- <span class="list-group-item list-group-item-action py-2 ripple active" aria-current="true">
-                        <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Admin dashboard</span>
-                    </span> -->
-                        <a href="category.php" class="list-group-item list-group-item-action py-2 ripple">
-                            <i class="fa-solid fa-layer-group me-3"></i><span>Category</span>
-                        </a>
-                        <a href="admin_loyalty.php" class="list-group-item list-group-item-action py-2 ripple">
-                            <i class="fas fa-chart-pie fa-fw me-3"></i><span>Loyalty program</span>
-                        </a>
-                        <a href="offers.php" class="list-group-item list-group-item-action py-2 ripple"><i
-                                class="fas fa-hand-holding-dollar fa-fw me-3"></i><span>Offers</span></a>
-                        <a href="add_variation.php" class="list-group-item list-group-item-action py-2 ripple"><i
-                                class="fas fa-ice-cream fa-fw me-3"></i><span>Add product variations
-                                (flavours)</span></a>
-                        <a href="customer-query-dashboard.php"
-                            class="list-group-item list-group-item-action py-2 ripple"><i
-                                class="fas fa-users fa-fw me-3"></i><span>Customer Query Dashboard</span></a>
-                        <a href="flavours.php" class="list-group-item list-group-item-action py-2 ripple"><i
-                                class="fas fa-ice-cream fa-fw me-3"></i><span>Add new Flavour</span></a>
-                        <!-- 
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-globe fa-fw me-3"></i><span>International</span></a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-calendar fa-fw me-3"></i><span>Calendar</span></a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-users fa-fw me-3"></i><span>Users</span></a> -->
-                        <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-chart-bar fa-fw me-3"></i><span>Orders</span></a> -->
-                        <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple ">
-                        <i class="fas fa-chart-area fa-fw me-3"></i><span>Webiste traffic</span>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-lock fa-fw me-3"></i><span>Password</span></a> -->
-                        <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-chart-line fa-fw me-3"></i><span>Analytics</span></a> -->
+        <?php require_once("includes/side_menu.php"); ?>
 
-                    </div>
-                </div>
-            </nav>
-            <!-- Sidebar -->
-        </header>
         <main>
             <button type="button" class="btn btn-primary float-end" data-bs-toggle="modal"
                 data-bs-target="#discountModal">
@@ -300,3 +254,4 @@ $offers = $stmt->fetchAll(PDO::FETCH_ASSOC);
         });
     });
 </script>
+<?php require_once("includes/footer_scripts.php"); ?>

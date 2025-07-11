@@ -294,38 +294,18 @@ try {
                 <div class="banner-blocks">
                     <?php
                     // Array of banners
-                    $banners = [
-                        [
-                            "title" => "Items on SALE",
-                            "description" => "Discounts up to 30%",
-                            "image" => "assets/images/comp/whey-gnc-pol-muscle-punch.jpeg",
-                            "link" => "/nutrizone/products.php",
-                            "bg_class" => "bg-info",
-                            "block_class" => "block-1"
-                        ],
-                        [
-                            "title" => "Combo offers",
-                            "description" => "Discounts up to 50%",
-                            "image" => "assets/images/comp/oats.jpeg",
-                            "link" => "/nutrizone/products.php",
-                            "bg_class" => "bg-success-subtle",
-                            "block_class" => "block-2"
-                        ],
-                        [
-                            "title" => "Discount Coupons",
-                            "description" => "Discounts up to 40%",
-                            "image" => "assets/images/comp/aleksander-saks-lVZGEyL_j40-unsplash.jpg",
-                            "link" => "/nutrizone/products.php",
-                            "bg_class" => "bg-danger",
-                            "block_class" => "block-3"
-                        ]
-                    ];
+                    try {
+                        $stmt = $pdo->query("SELECT * FROM banners");
+                        $banners = $stmt->fetchAll(PDO::FETCH_ASSOC);
+                    } catch (PDOException $e) {
+                        $error = 'Error: ' . $e->getMessage();
+                    }
 
                     // Loop through banners and display them
                     foreach ($banners as $banner) {
                         ?>
                         <div class="banner-ad d-flex align-items-center <?= htmlspecialchars($banner['bg_class']); ?> <?= htmlspecialchars($banner['block_class']); ?>"
-                            style="background: url('<?= htmlspecialchars($banner['image']); ?>') no-repeat; background-size: cover;">
+                            style="background: url('<?= htmlspecialchars($banner['background_image']); ?>') no-repeat; background-size: cover;">
                             <div class="banner-content p-5">
                                 <div class="content-wrapper text-light">
                                     <h3 class="banner-title text-light"><?= htmlspecialchars($banner['title']); ?></h3>
@@ -361,7 +341,7 @@ try {
                 </div>
             </div>
         </div>
-        <div class="row"> 
+        <div class="row">
             <div class="col-md-12">
                 <div class="swiper">
                     <div class="swiper-wrapper">

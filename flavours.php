@@ -5,143 +5,59 @@
 <?php require_once("config/database_connection.php"); ?>
 
 <div class="container p-5">
-    <style>
-        @media (min-width: 991.98px) {
-            main {
-                padding-left: 240px;
-            }
-        }
 
-        /* Sidebar */
-        .sidebar {
-            position: fixed;
-            top: 0;
-            bottom: 0;
-            left: 0;
-            padding: 58px 0 0;
-            /* Height of navbar */
-            box-shadow: -1px 7px 15px -4px rgba(0, 0, 0, 0.76);
-            width: 240px;
-            z-index: 600;
-        }
 
-        @media (max-width: 991.98px) {
-            .sidebar {
-                width: 100%;
-            }
-        }
+    <?php require_once("includes/side_menu.php"); ?>
 
-        .sidebar .active {
-            border-radius: 5px;
-            box-shadow: 0 2px 5px 0 rgb(0 0 0 / 16%), 0 2px 10px 0 rgb(0 0 0 / 12%);
-        }
-
-        .sidebar-sticky {
-            position: relative;
-            top: 0;
-            height: calc(100vh - 48px);
-            padding-top: 0.5rem;
-            overflow-x: hidden;
-            overflow-y: auto;
-            /* Scrollable contents if viewport is shorter than content. */
-        }
-    </style>
-
-    <header>
-        <!-- Sidebar -->
-        <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
-            <div class="position-sticky">
-                <div class="list-group list-group-flush mx-3 mt-4">
-                    <!-- <span class="list-group-item list-group-item-action py-2 ripple active" aria-current="true">
-                        <i class="fas fa-tachometer-alt fa-fw me-3"></i><span>Admin dashboard</span>
-                    </span> -->
-                    <a href="category.php" class="list-group-item list-group-item-action py-2 ripple">
-                        <i class="fa-solid fa-layer-group me-3"></i><span>Category</span>
-                    </a>
-                    <a href="admin_loyalty.php" class="list-group-item list-group-item-action py-2 ripple">
-                        <i class="fas fa-chart-pie fa-fw me-3"></i><span>Loyalty program</span>
-                    </a>
-                    <a href="offers.php" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-hand-holding-dollar fa-fw me-3"></i><span>Offers</span></a>
-                    <a href="add_variation.php" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-ice-cream fa-fw me-3"></i><span>Add product variations (flavours)</span></a>
-                    <a href="customer-query-dashboard.php" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-users fa-fw me-3"></i><span>Customer Query Dashboard</span></a>
-                    <a href="flavours.php" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-ice-cream fa-fw me-3"></i><span>Add new Flavour</span></a>
-                    <!-- 
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-globe fa-fw me-3"></i><span>International</span></a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-building fa-fw me-3"></i><span>Partners</span></a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-calendar fa-fw me-3"></i><span>Calendar</span></a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-users fa-fw me-3"></i><span>Users</span></a> -->
-                    <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-chart-bar fa-fw me-3"></i><span>Orders</span></a> -->
-                    <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple ">
-                        <i class="fas fa-chart-area fa-fw me-3"></i><span>Webiste traffic</span>
-                    </a>
-                    <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-lock fa-fw me-3"></i><span>Password</span></a> -->
-                    <!-- <a href="#" class="list-group-item list-group-item-action py-2 ripple"><i
-                            class="fas fa-chart-line fa-fw me-3"></i><span>Analytics</span></a> -->
-
-                </div>
-            </div>
-        </nav>
-        <!-- Sidebar -->
-    </header>
     <main>
-    <h2 class="mb-4 pt-5">Flavours <div class="text-end">
-            <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addFlavourModal">Add New
-                Flavour</button>
-        </div>
-    </h2>
+        <h2 class="mb-4 pt-5">Flavours <div class="text-end">
+                <button class="btn btn-secondary" data-bs-toggle="modal" data-bs-target="#addFlavourModal">Add New
+                    Flavour</button>
+            </div>
+        </h2>
 
 
-    <div class="modal fade" id="addFlavourModal" tabindex="-1" aria-labelledby="addFlavourLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form id="flavourForm" class="modal-content">
-                <input type="hidden" name="id" id="flavour_id">
-                <div class="modal-header">
-                    <h5 class="modal-title">Add Flavour</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Flavour Name</label>
-                        <input type="text" class="form-control" name="name" id="name" required>
+        <div class="modal fade" id="addFlavourModal" tabindex="-1" aria-labelledby="addFlavourLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <form id="flavourForm" class="modal-content">
+                    <input type="hidden" name="id" id="flavour_id">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Flavour</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="mb-3">
-                        <label for="description" class="form-label">Description</label>
-                        <input type="text" class="form-control" name="description" id="description" required>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Flavour Name</label>
+                            <input type="text" class="form-control" name="name" id="name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <input type="text" class="form-control" name="description" id="description" required>
+                        </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary">Save Flavour</button>
-                </div>
-            </form>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Save Flavour</button>
+                    </div>
+                </form>
+            </div>
         </div>
-    </div>
 
-    <!-- Flavour Table -->
-    <div class="card">
-        <div class="card-header">Flavour List</div>
-        <div class="card-body">
-            <table id="flavour-table" class="table table-striped table-hover">
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Flavour Name</th>
-                        <th>description </th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-            </table>
+        <!-- Flavour Table -->
+        <div class="card">
+            <div class="card-header">Flavour List</div>
+            <div class="card-body">
+                <table id="flavour-table" class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Flavour Name</th>
+                            <th>description </th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
-    </div>
 </div>
 
 <script>
@@ -235,3 +151,4 @@
     });
 </script>
 </main>
+<?php require_once("includes/footer_scripts.php"); ?>
