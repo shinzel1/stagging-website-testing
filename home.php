@@ -520,7 +520,7 @@ $bannerDetails = [
                         <div class="d-grid gap-2">
                             <a href="login.php" type="submit" class="btn btn-secondary btn-md rounded-0">Login</a>
 
-                            <a type="login.php" class="btn btn-primary btn-md rounded-0">Signup</a>
+                            <a href="login.php" type="submit" class="btn btn-primary btn-md rounded-0">Signup</a>
                         </div>
                     </div>
                 </div>
