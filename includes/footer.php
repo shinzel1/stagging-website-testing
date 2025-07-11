@@ -79,7 +79,7 @@
                             <a href="/" class="nav-link">Home</a>
                         </li>
                         <li class="menu-item">
-                            <a href="product.php" class="nav-link">Featured Products</a>
+                            <a href="products" class="nav-link">Featured Products</a>
                         </li>
                         <li class="menu-item">
                             <a href="cart.php" class="nav-link">Cart</a>
