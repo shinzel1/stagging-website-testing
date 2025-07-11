@@ -1,7 +1,6 @@
 <footer class="py-5" style="box-shadow: -1px -7px 15px -4px rgba(0,0,0,0.76);">
     <div class="container-lg">
         <div class="row">
-
             <div class="col-lg-3 col-md-6 col-sm-6">
                 <div class="footer-menu">
                     <img src="assets/images/logo.jpeg" width="100%" alt="logo">
@@ -81,9 +80,12 @@
                         <li class="menu-item">
                             <a href="products" class="nav-link">Featured Products</a>
                         </li>
+                        <?php if (isset($_SESSION['user_id'])) { ?>
                         <li class="menu-item">
-                            <a href="cart.php" class="nav-link">Cart</a>
-                        </li>
+                        <a href="cart.php" class="nav-link">Cart</a>
+                    </li>
+                    <?php }?>
+                        
                         <!-- <li class="menu-item">
                             <a href="/about.php" class="nav-link">About us</a>
                         </li> -->
@@ -99,10 +101,10 @@
                     <h5 class="widget-title">Customer Service</h5>
                     <ul class="menu-list list-unstyled">
                         <li class="menu-item">
-                            <a href="/contact.php" class="nav-link">Contact</a>
+                            <a href="contact.php" class="nav-link">Contact</a>
                         </li>
                         <li class="menu-item">
-                            <a href="/privacy-policy.php" class="nav-link">Privacy Policy</a>
+                            <a href="privacy-policy.php" class="nav-link">Privacy Policy</a>
                         </li>
                     </ul>
                 </div>
