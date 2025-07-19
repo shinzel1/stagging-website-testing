@@ -729,7 +729,7 @@ require_once 'includes/functions.php';
 
     .whatsapp-icon {
       bottom: 40px;
-      right: 40px;
+      right: 1rem;
       color: #FFF;
       background-color: #25d366;
 
@@ -737,14 +737,14 @@ require_once 'includes/functions.php';
 
     .facebook-icon {
       bottom: 107px;
-      right: 40px;
+      right: 1rem;
       color: #1877F2;
       background-color: #fff;
     }
 
     .instagram-icon {
       bottom: 170px;
-      right: 40px;
+      right: 1rem;
       background-color: #fff;
 
     }
