@@ -50,7 +50,7 @@ try {
 <section class="pt-5"
     style="background-image: url('assets/images/victor-freitas-WvDYdXDzkhs-unsplash.jpg'); background-repeat: no-repeat; background-size: cover;">
 
-    <div class="container-lg">
+    <div class="container-lg container-fluid">
         <div class="row">
             <div class="col-lg-6 pt-5 mt-5">
                 <h2 class="display-1 ls-1 text-white">
@@ -120,7 +120,7 @@ try {
 </section>
 
 <section class="py-5 overflow-hidden">
-    <div class="container-lg">
+    <div class="container-lg container-sm ">
         <div class="row">
             <div class="col-md-12">
 
