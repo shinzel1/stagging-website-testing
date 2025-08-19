@@ -6,7 +6,7 @@
   <title><?php echo $page_title; ?></title>
   <meta name="description" content="About">
   <meta name="keywords" content="keywords">
-  <link rel="canonical" href="https://nutrizone.com/about">
+  <link rel="canonical" href="https://nutrizone.in/about">
 </head>
 <div class="container pt-5">
     <section class="about section pt-5">

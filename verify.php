@@ -188,7 +188,7 @@ function sendOrderConfirmationEmail($email, $order_id, $cart_items, $total)
         $mail->Port = 587; // 587 for 'tls' 465
 
         // Email headers
-        $mail->setFrom('no-reply@nutrizone.com', 'Nutrizone');
+        $mail->setFrom('no-reply@nutrizone.in', 'Nutrizone');
         $mail->addAddress($email);
         $mail->Subject = 'Order Confirmation - Order #' . $order_id;
         $mail->isHTML(true);

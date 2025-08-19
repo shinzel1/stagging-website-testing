@@ -1,4 +1,4 @@
-<?php 
+<?php
 require_once('includes/tcpdf/tcpdf.php'); // Include TCPDF library
 require_once('config/database_connection.php'); // Database connection
 
@@ -39,46 +39,76 @@ try {
 
     // Build Invoice Header
     $html = '
-    <h1 style="text-align: center;">INVOICE</h1>
-    <h4>Company Name: Nutrizone</h4>
-    <p><strong>Address:</strong> Rajouri Garden</p>
-    <p><strong>Email:</strong> support@nutrizone.com</p>
-    <p><strong>Phone:</strong> (+91)9999999999</p>
-    <hr>
-    <h4>Invoice Details</h4>
-    <p><strong>Invoice No:</strong> INV-' . $order_id . '</p>
-    <p><strong>Invoice Date:</strong> ' . date('d M, Y', strtotime($order['created_at'])) . '</p>
-    <p><strong>Order No:</strong> #' . $order_id . '</p>
-    <hr>
-    <h4>Customer Details</h4>
-    <p><strong>Email:</strong> ' . htmlspecialchars($order['email']) . '</p>
-    <p><strong>Shipping Address:</strong> ' . htmlspecialchars($order['shipping_address']) . '</p>
-    <hr>
-    <h4>Order Summary</h4>
-    <table border="1" cellpadding="5">
-        <thead>
+    <div style="width: 100%; font-family: Arial, sans-serif; line-height: 1.5;">
+
+    <!-- Title -->
+    <h1 style="text-align: center; margin-bottom: 10px;">INVOICE</h1>
+    <hr style="margin: 10px 0;">
+
+    <!-- Invoice Details Table -->
+    <table width="100%" cellpadding="4" cellspacing="0" border="0">
+        <tr>
+            <td align="left">
+                <strong>Company:</strong> Nutrizone<br>
+                <strong>Address:</strong> Shop No4, Ground Floor, J13/1, Rajouri Garden,<br>
+                New Delhi, Delhi 110027<br>
+                <strong>Email:</strong> support@nutrizone.in<br>
+                <strong>Phone:</strong> (+91)9891289789
+            </td>
+            <td align="right">
+                <strong>Invoice No:</strong> ' . $order_id . '<br>
+                <strong>Invoice Date:</strong> ' . date('d M, Y', strtotime($order['created_at'])) . '<br>
+                <strong>Order No:</strong> #' . $order_id . '
+            </td>
+        </tr>
+    </table>
+    <hr style="margin: 10px 0;">
+
+    <!-- Customer & Shipping Details -->
+    <table width="100%" cellpadding="4" cellspacing="0" border="0">
+        <tr>
+            <td align="left" width="50%">
+                <h4>Bill To:</h4>
+                <strong>Email:</strong> ' . htmlspecialchars($order['email']) . '<br>
+                <strong>Shipping Address:</strong> ' . htmlspecialchars($order['shipping_address']) . '
+            </td>
+            <td align="right" width="50%">
+                <h4>From:</h4>
+                Nutrizone<br>
+                support@nutrizone.in<br>
+                (+91)9891289789
+            </td>
+        </tr>
+    </table>
+    <hr style="margin: 10px 0;">
+
+    <!-- Order Summary -->
+    <h4 style="margin-bottom: 5px;">Order Summary</h4>
+    <table border="1" cellpadding="8" cellspacing="0" width="100%" style="border-collapse: collapse; text-align: center; font-size: 9px;">
+        <thead style="background: #f2f2f2;">
             <tr>
-                <th>No.</th>
-                <th>Item</th>
-                <th>Price</th>
-                <th>Quantity</th>
-                <th>Total</th>
+                <th width="5%">No.</th>
+                <th width="55%">Item</th>
+                <th width="15%">Price</th>
+                <th width="10%">Quantity</th>
+                <th width="15%">Total</th>
             </tr>
         </thead>
-        <tbody>';
+        <tbody>
+';
 
     // Initialize variables
     $counter = 1;
     $subtotal = 0;
-    
+
     foreach ($items as $item) {
         $subtotal += $item['total'];
         $html .= '<tr>
-                    <td>' . $counter++ . '</td>
-                    <td>' . htmlspecialchars($item['name']) . '</td>
-                    <td>₹' . number_format($item['price'], 2) . '</td>
-                    <td>' . $item['quantity'] . '</td>
-                    <td>₹' . number_format($item['total'], 2) . '</td>
+                    <td width="5%">' . $counter++ . '</td>
+                    <td width="55%">' . htmlspecialchars($item['name']) . '</td>
+                    <td width="15%">₹' . number_format($item['price'], 2) . '</td>
+                    <td width="10%">' . $item['quantity'] . '</td>
+                    <td width="15%">₹' . number_format($item['total'], 2) . '</td>
                 </tr>';
     }
 
@@ -88,7 +118,7 @@ try {
     $final_amount = $order['final_amount'];
 
     // Dynamically Set Tax & Shipping Charges
-    $shipping = 20.00; // Update this if stored in the database
+    $shipping = 0.01; // Update this if stored in the database
     $tax = round(($subtotal - $promo_discount - $loyalty_discount) * 0.05, 2); // Example: 5% Tax
 
     // Generate Final Summary
@@ -118,10 +148,6 @@ try {
         <tr>
             <th colspan="4" style="text-align:right;">Shipping</th>
             <td>₹' . number_format($shipping, 2) . '</td>
-        </tr>
-        <tr>
-            <th colspan="4" style="text-align:right;">Tax (5%)</th>
-            <td>₹' . number_format($tax, 2) . '</td>
         </tr>
         <tr>
             <th colspan="4" style="text-align:right;">Final Amount Paid</th>
