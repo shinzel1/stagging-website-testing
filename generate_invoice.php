@@ -39,7 +39,7 @@ try {
 
     // Build Invoice Header
     $html = '
-    <div style="width: 100%; font-family: Arial, sans-serif; line-height: 1.5;">
+    <div style="width: 100%; font-family: Arial, sans-serif; line-height: 1.5;font-size: 9px;">
 
     <!-- Title -->
     <h1 style="text-align: center; margin-bottom: 10px;">INVOICE</h1>
@@ -157,7 +157,7 @@ try {
     </table>
     <br>
     <p style="text-align:center;">Thank you for your business!</p>
-    <p style="text-align:center;"><b>instagram:</b>@nutrizone.delhi<b>&nbsp;&nbsp;&nbsp;&nbsp; facebook:</b>nutrizonecompletenutritionstore</p>
+    <p style="text-align:center;"><b>instagram:</b>&nbsp;@nutrizone.delhi<b>&nbsp;&nbsp;&nbsp;&nbsp; facebook:</b>&nbsp;nutrizonecompletenutritionstore</p>
     ';
 
     // Write HTML content to PDF
