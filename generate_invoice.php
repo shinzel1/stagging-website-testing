@@ -49,7 +49,7 @@ try {
     <table width="100%" cellpadding="4" cellspacing="0" border="0">
         <tr>
             <td align="left">
-                <strong>Company:</strong> Nutrizone<br>
+                <strong>Company:</strong> Nutrizone: A Unit of Bio Active Nutrition<br>
                 <strong>Address:</strong> Shop No4, Ground Floor, J13/1, Rajouri Garden,<br>
                 New Delhi, Delhi 110027<br>
                 <strong>Email:</strong> support@nutrizone.in<br>

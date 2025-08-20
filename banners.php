@@ -72,7 +72,6 @@
                             <th>Description</th>
                             <th>Image</th>
                             <th>Link</th>
-                            <th>Page</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
@@ -94,9 +93,7 @@
                     data: 'background_image',
                     render: data => `<img src="${data}" style="width:60px;height:40px;">`
                 },
-                { data: 'link' },
-                { data: 'page' },
-                {
+                { data: 'link' },                {
                     data: null,
                     render: row => `
                     <button class="btn btn-sm btn-primary edit-btn" data-id="${row.id}">Edit</button>
