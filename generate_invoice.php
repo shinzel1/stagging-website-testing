@@ -157,13 +157,14 @@ try {
     </table>
     <br>
     <p style="text-align:center;">Thank you for your business!</p>
+    <p style="text-align:center;"><b>instagram:</b>@nutrizone.delhi<b>&nbsp;&nbsp;&nbsp;&nbsp; facebook:</b>nutrizonecompletenutritionstore</p>
     ';
 
     // Write HTML content to PDF
     $pdf->writeHTML($html, true, false, true, false, '');
 
     // Output the PDF
-    $pdf->Output('Invoice-' . $order_id . '.pdf', 'D'); // 'D' forces download
+    $pdf->Output('Invoice-' . $order_id .'_'. rand() . '.pdf', 'D'); // 'D' forces download
 
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
