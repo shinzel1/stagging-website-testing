@@ -151,7 +151,7 @@ try {
         </tr>
         <tr>
             <th colspan="4" style="text-align:right;">Amount</th>
-            <td><strong>₹' . number_format($final_amount, 2) . '</strong></td>
+            <td><strong>₹' . number_format(($final_amount + $shipping), 2) . '</strong></td>
         </tr>
     </tbody>
     </table>
