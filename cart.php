@@ -214,7 +214,7 @@ $_SESSION['promo_discount'] = 0;
                                                         <strong><?= $user['loyalty_points']; ?></strong>
                                                     </div>
                                                     <span
-                                                        class="btn btn-secondary button-sm <?= $user['loyalty_points'] == 0 ? 'disabled' : ''; ?>"
+                                                        class="btn btn-secondary button-sm <?= $user['loyalty_points'] <= 400 ? 'disabled' : ''; ?>"
                                                         id="redeemPointsBtn">Redeem</span>
                                                 </li>
                                             </div>
