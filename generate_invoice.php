@@ -42,14 +42,14 @@ try {
     <div style="width: 100%; font-family: Arial, sans-serif; line-height: 1.5;font-size: 9px;">
 
     <!-- Title -->
-    <h1 style="text-align: center; margin-bottom: 10px;">INVOICE</h1>
+    <h1 style="text-align: center; margin-bottom: 10px;">PERFORMA INVOICE</h1>
     <hr style="margin: 10px 0;">
 
     <!-- Invoice Details Table -->
     <table width="100%" cellpadding="4" cellspacing="0" border="0">
         <tr>
             <td align="left">
-                <strong>Company:</strong> Nutrizone: A Unit of Bio Active Nutrition<br>
+                <strong>Company:</strong> Nutrizone (A Unit of Bio Active Nutrition)<br>
                 <strong>Address:</strong> Shop No4, Ground Floor, J13/1, Rajouri Garden,<br>
                 New Delhi, Delhi 110027<br>
                 <strong>Email:</strong> support@nutrizone.in<br>
@@ -118,13 +118,13 @@ try {
     $final_amount = $order['final_amount'];
 
     // Dynamically Set Tax & Shipping Charges
-    $shipping = 0.01; // Update this if stored in the database
+    $shipping = 10; // Update this if stored in the database
     $tax = round(($subtotal - $promo_discount - $loyalty_discount) * 0.05, 2); // Example: 5% Tax
 
     // Generate Final Summary
     $html .= '
         <tr>
-            <th colspan="4" style="text-align:right;">Subtotal</th>
+            <th colspan="4" style="text-align:right;">(Inclusive of Taxes)Subtotal</th>
             <td>₹' . number_format($subtotal, 2) . '</td>
         </tr>';
 
@@ -150,7 +150,7 @@ try {
             <td>₹' . number_format($shipping, 2) . '</td>
         </tr>
         <tr>
-            <th colspan="4" style="text-align:right;">Final Amount Paid</th>
+            <th colspan="4" style="text-align:right;">Amount</th>
             <td><strong>₹' . number_format($final_amount, 2) . '</strong></td>
         </tr>
     </tbody>
@@ -164,7 +164,7 @@ try {
     $pdf->writeHTML($html, true, false, true, false, '');
 
     // Output the PDF
-    $pdf->Output('Invoice-' . $order_id .'_'. rand() . '.pdf', 'D'); // 'D' forces download
+    $pdf->Output('Invoice-' . $order_id . '_' . rand() . '.pdf', 'D'); // 'D' forces download
 
 } catch (PDOException $e) {
     die("Database error: " . $e->getMessage());
