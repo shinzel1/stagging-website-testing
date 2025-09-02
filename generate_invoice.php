@@ -42,16 +42,15 @@ try {
     <div style="width: 100%; font-family: Arial, sans-serif; line-height: 1.5;font-size: 9px;">
 
     <!-- Title -->
-    <h1 style="text-align: center; margin-bottom: 10px;">PERFORMA INVOICE</h1>
+    <h1 style="text-align: center; margin-bottom: 10px;">PERFORMA INVOICE/ CASH MEMO</h1>
     <hr style="margin: 10px 0;">
 
     <!-- Invoice Details Table -->
     <table width="100%" cellpadding="4" cellspacing="0" border="0">
         <tr>
             <td align="left">
-                <strong>Company:</strong> Nutrizone (A Unit of Bio Active Nutrition)<br>
-                <strong>Address:</strong> Shop No4, Ground Floor, J13/1, Rajouri Garden,<br>
-                New Delhi, Delhi 110027<br>
+                <strong>Nutrizone</strong> <br>
+                <strong>(A Unit of Bio Active Nutrition)</strong><br>
                 <strong>Email:</strong> support@nutrizone.in<br>
                 <strong>Phone:</strong> (+91)9891289789
             </td>

@@ -147,7 +147,7 @@ try {
                         foreach ($categories as $category): ?>
                             <a href="products.php?search=<?= $category['title']; ?>"
                                 class="nav-link swiper-slide text-center">
-                                <img src="<?= $category['image']; ?>" class="rounded-circle categoryRoundImage"
+                                <img src="<?= $category['image']; ?>" class="categoryRoundImage"
                                     alt="Category Thumbnail" />
                                 <h4 class="fs-6 mt-3 fw-normal category-title"><?= $category['name']; ?></h4>
                             </a>
@@ -157,7 +157,7 @@ try {
 
                 <style>
                     .categoryRoundImage {
-                        max-height: 14rem;
+                        max-height: 10rem;
                     }
                 </style>
             </div>
