@@ -1,221 +1,212 @@
 <?php
-// Include Razorpay API
-require('razorpay-php/Razorpay.php');
+error_reporting(0);
+require_once __DIR__ . '/v2/config.php';
+require_once __DIR__ . '/v2/package/PhonePeHelper.php';
+require_once "config/database_connection.php";
 
-use Razorpay\Api\Api;
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 
-// Load PHPMailer
 require 'PHPMailer/src/Exception.php';
 require 'PHPMailer/src/PHPMailer.php';
 require 'PHPMailer/src/SMTP.php';
 
-// Database Connection
-require_once("config/database_connection.php");
-
-// Initialize Razorpay API
-$api_key = 'rzp_test_LZC9TP5K0xF5vx';
-$api_secret = 'rPGh2AyXnt0uTwng699JEVwV';
-$api = new Api($api_key, $api_secret);
-
-// Payment Verification
-$success = true;
-$error = null;
-$addresses = [];
-
-$razorpay_order_id = htmlspecialchars($_POST['razorpay_order_id']);
-$payment_id = htmlspecialchars($_POST['razorpay_payment_id']);
-$razorpay_signature = htmlspecialchars($_POST['razorpay_signature']);
-$payment = $api->payment->fetch($payment_id);
-
-try {
-    // Verify payment signature
-    $attributes = [
-        'razorpay_order_id' => $razorpay_order_id,
-        'razorpay_payment_id' => $payment_id,
-        'razorpay_signature' => $razorpay_signature,
-    ];
-    $api->utility->verifyPaymentSignature($attributes);
-} catch (\Razorpay\Api\Errors\SignatureVerificationError $e) {
-    $success = false;
-    $error = 'Razorpay Signature Verification Failed: ' . $e->getMessage();
+// -----------------------------
+// STEP 1: VALIDATE ORDER ID
+// -----------------------------
+if (empty($_GET['order_id'])) {
+    die("❌ Invalid or missing order_id in URL");
 }
 
-// Proceed only if payment is successful
-if ($success) {
+$order_id_param = $_GET['order_id'];
+
+// -----------------------------
+// STEP 2: VERIFY PAYMENT STATUS USING HELPER
+// -----------------------------
+try {
+    $phonePeHelper = new PhonePeHelper(CLIENT_ID, CLIENT_SECRET, CLIENT_VERSION, 'UAT');
+    $response = $phonePeHelper->checkPaymentStatus($order_id_param);
+    $payment = $response['paymentDetails'] ?? [];
+    $state = strtoupper($response['state'] ?? 'FAILED');
+    $amount = ($response['amount'] ?? 0) / 100;
+    $phonepe_txn_id = $response['orderId'] ?? '';
+} catch (Exception $e) {
+    die("Error verifying payment: " . $e->getMessage());
+}
+
+// -----------------------------
+// STEP 3: HANDLE INCOMPLETE PAYMENT
+// -----------------------------
+if ($state !== 'COMPLETED') {
+    $reponse_path = RESPONSE_PATH . "?order_id=" . $_GET['order_id'];
+    $response1 = $phonePeHelper->createPayment($_GET['order_id'], $response['amount'], $reponse_path);
+    $again_url = $response1['redirectUrl'] ?? '';
+} else {
+    $again_url = '';
+}
+
+// -----------------------------
+// STEP 4: IF PAYMENT SUCCESS, PROCESS ORDER
+// -----------------------------
+if ($state === 'COMPLETED') {
     try {
-        // Fetch User ID from temporary entries
+
+        // Fetch temporary entry
         $stmt = $pdo->prepare("SELECT user_id FROM temporary_entries WHERE token = ?");
-        $stmt->execute([$razorpay_order_id]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $user_id = $user["user_id"];
+        $stmt->execute([$order_id_param]);
+        $temp = $stmt->fetch(PDO::FETCH_ASSOC);
+        $user_id = $temp['user_id'] ?? null;
+
+        if (!$user_id)
+            die("User not found for this transaction.");
 
         // Fetch user email
         $stmt = $pdo->prepare("SELECT email FROM users WHERE id = ?");
         $stmt->execute([$user_id]);
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        $user_email = $user["email"];
+        $user_email = $stmt->fetchColumn();
 
-        // Fetch Billing Address (To Use as Shipping Address)
+        // Fetch billing address
         $stmt = $pdo->prepare("SELECT * FROM addresses WHERE user_id = ? AND address_type = 'billing'");
         $stmt->execute([$user_id]);
         $billing_address = $stmt->fetch(PDO::FETCH_ASSOC);
 
-        // If no address is found, throw an error
-        if (!$billing_address) {
-            die("Error: No billing address found. Please update your address before checkout.");
-        }
+        if (!$billing_address)
+            die("No billing address found for user.");
 
-        // Format the shipping address as a single string
-        $shipping_address = implode(', ', [
-            $billing_address['billing_name'],
-            $billing_address['address_line_1'],
-            $billing_address['address_line_2'],
-            $billing_address['city'],
-            $billing_address['postal_code'],
-            $billing_address['state'],
-            $billing_address['country']
-        ]);
+        // Build formatted address string
+        $shipping_address = implode(', ', array_filter([
+            $billing_address['billing_name'] ?? '',
+            $billing_address['address_line_1'] ?? '',
+            $billing_address['address_line_2'] ?? '',
+            $billing_address['city'] ?? '',
+            $billing_address['postal_code'] ?? '',
+            $billing_address['state'] ?? '',
+            $billing_address['country'] ?? ''
+        ]));
 
-        // Fetch Cart Items
+        // Fetch cart items
         $stmt = $pdo->prepare("SELECT c.id, p.name, p.price, c.quantity, p.id AS product_id 
-                       FROM cart c 
-                       INNER JOIN products p ON c.product_id = p.id 
-                       WHERE c.user_id = ?");
+                               FROM cart c 
+                               INNER JOIN products p ON c.product_id = p.id 
+                               WHERE c.user_id = ?");
         $stmt->execute([$user_id]);
         $cart_items = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-        // Calculate Order Total Before Discount
-        $order_amount = 0;
-        foreach ($cart_items as $item) {
-            $order_amount += $item['price'] * $item['quantity'];
+        if (empty($cart_items))
+            die("Cart is empty for this user.");
+
+        // Calculate totals
+        $order_amount = array_sum(array_map(fn($item) => $item['price'] * $item['quantity'], $cart_items));
+        $final_amount = $amount ?: $order_amount;
+        echo "debug";
+
+        // error point
+        // Check if order already exists for this PhonePe transaction
+        $checkOrder = $pdo->prepare("SELECT order_id FROM orders WHERE razorpay_order_id = ?");
+        $checkOrder->execute([$order_id_param]);
+        if ($checkOrder->fetch()) {
+            header("Location: order-confirmation.php?order_id=" . urlencode($order_id_param));
+            exit;
         }
+        echo "debug";
 
-        // Fetch the final amount paid from Razorpay response
-        $final_amount = ($payment->amount) / 100; // Convert paisa to INR
-
-        // Insert Order into Database (Including Shipping Address)
-        $stmt = $pdo->prepare("INSERT INTO orders (user_id, total_amount, final_amount, currency, razorpay_order_id, razorpay_payment_id, payment_status, promo_code, shipping_address) 
+        // Create new order
+        $stmt = $pdo->prepare("INSERT INTO orders 
+            (user_id, total_amount, final_amount, currency, razorpay_order_id, razorpay_payment_id, payment_status, promo_code, shipping_address)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)");
         $stmt->execute([
             $user_id,
             $order_amount,
             $final_amount,
             'INR',
-            $razorpay_order_id,
-            $payment_id,
+            $order_id_param,
+            $phonepe_txn_id,
             'paid',
             $_SESSION['promo_code'] ?? null,
             $shipping_address
         ]);
 
-
         $order_id = $pdo->lastInsertId();
+        echo "debug";
 
-        // Insert Order Items & Update Stock
-        $order_items_stmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
+        // Insert order items and update stock
+        $itemStmt = $pdo->prepare("INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)");
         foreach ($cart_items as $item) {
-            $order_items_stmt->execute([$order_id, $item['product_id'], $item['quantity'], $item['price']]);
-
-            // Reduce Stock
-            $update_stock_stmt = $pdo->prepare("UPDATE products SET quantity = quantity - ? WHERE id = ?");
-            $update_stock_stmt->execute([$item['quantity'], $item['product_id']]);
+            $itemStmt->execute([$order_id, $item['product_id'], $item['quantity'], $item['price']]);
+            $pdo->prepare("UPDATE products SET quantity = quantity - ? WHERE id = ?")
+                ->execute([$item['quantity'], $item['product_id']]);
         }
 
-        // Mark Out-of-Stock Products
-        $set_out_of_stock_stmt = $pdo->prepare("UPDATE products SET status = 'out_of_stock' WHERE quantity <= 0");
-        $set_out_of_stock_stmt->execute();
+        // Update stock status and clear cart
+        $pdo->query("UPDATE products SET status = 'out_of_stock' WHERE quantity <= 0");
+        $pdo->prepare("DELETE FROM cart WHERE user_id = ?")->execute([$user_id]);
 
-        // Clear User Cart
-        $clear_cart_stmt = $pdo->prepare("DELETE FROM cart WHERE user_id = ?");
-        $clear_cart_stmt->execute([$user_id]);
-
-        // Deduct Loyalty Points and Reset to Zero
+        // Loyalty points handling
+        $redeem_points = $_SESSION['redeemed_points'] ?? 0;
         if ($redeem_points > 0) {
-            $updateUserStmt = $pdo->prepare("UPDATE users SET loyalty_points = 0 WHERE id = ?");
-            $updateUserStmt->execute([$user_id]);
-
-            // Log Transaction
-            $logStmt = $pdo->prepare("INSERT INTO loyalty_transactions (user_id, order_id, points, transaction_type) VALUES (?, ?, ?, 'redeemed')");
-            $logStmt->execute([$user_id, $order_id, -$redeem_points]);
+            $pdo->prepare("UPDATE users SET loyalty_points = 0 WHERE id = ?")->execute([$user_id]);
+            $pdo->prepare("INSERT INTO loyalty_transactions (user_id, order_id, points, transaction_type)
+                           VALUES (?, ?, ?, 'redeemed')")->execute([$user_id, $order_id, -$redeem_points]);
         }
 
-        // Calculate Earned Loyalty Points
-        $settingsStmt = $pdo->query("SELECT points_per_dollar FROM loyalty_settings LIMIT 1");
-        $settings = $settingsStmt->fetch(PDO::FETCH_ASSOC);
-        $points_per_dollar = $settings['points_per_dollar'];
-        $earned_points = floor($final_amount * $points_per_dollar);
+        $settings = $pdo->query("SELECT points_per_dollar FROM loyalty_settings LIMIT 1")->fetch(PDO::FETCH_ASSOC);
+        $points_rate = $settings['points_per_dollar'] ?? 1;
+        $earned_points = floor($final_amount / $points_rate);
 
-        // Update User's Earned Points
-        $updateUserStmt = $pdo->prepare("UPDATE users SET loyalty_points = ? WHERE id = ?");
-        $updateUserStmt->execute([$earned_points, $user_id]);
+        $pdo->prepare("UPDATE users SET loyalty_points = ? WHERE id = ?")->execute([$earned_points, $user_id]);
+        $pdo->prepare("INSERT INTO loyalty_transactions (user_id, order_id, points, transaction_type)
+                       VALUES (?, ?, ?, 'earn')")->execute([$user_id, $order_id, $earned_points]);
 
-        // Log Earned Points Transaction
-        $logStmt = $pdo->prepare("INSERT INTO loyalty_transactions (user_id, order_id, points, transaction_type) VALUES (?, ?, ?, 'earn')");
-        $logStmt->execute([$user_id, $order_id, $earned_points]);
+        unset($_SESSION['redeemed_points'], $_SESSION['redeemed_discount'], $_SESSION['promo_discount'], $_SESSION['promo_code']);
 
-        // Clear Session Variables for Redeemed Points
-        unset($_SESSION['redeemed_points'], $_SESSION['redeemed_discount']);
-        unset($_SESSION['promo_discount'], $_SESSION['promo_code']);
-        // Send Order Confirmation Email
         sendOrderConfirmationEmail($user_email, $order_id, $cart_items, $final_amount);
-
-        // Redirect to Order Confirmation
         header("Location: order-confirmation.php?order_id=" . urlencode($order_id));
-        exit;
+
     } catch (Exception $e) {
-        error_log("Database error: " . $e->getMessage());
-        die("Error processing order: " . $e->getMessage());
+        error_log("Order Processing Error: " . $e->getMessage());
     }
-} else {
-    error_log("Payment failed: $error");
-    echo "<h3>Payment Failed!</h3><p>$error</p>";
 }
 
-// Function to send order confirmation email
+// -----------------------------
+// STEP 5: SHOW RESPONSE PAGE
+// -----------------------------
+?>
+
+<?php
+// -----------------------------
+// EMAIL FUNCTION
+// -----------------------------
 function sendOrderConfirmationEmail($email, $order_id, $cart_items, $total)
 {
     $mail = new PHPMailer(true);
     try {
-        // SMTP Configuration
         $mail->isSMTP();
-        $mail->Host = 'smtp.gmail.com'; // Replace with your SMTP server (e.g., smtp.mailtrap.io for testing)
+        $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
-        $mail->Username = 'sachinvvin@gmail.com'; // Your email address
-        $mail->Password = 'oawtojazziscrnrq'; // Your email password or app-specific password
-        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS; // ENCRYPTION_SMTPS Use 'tls' if your server doesn't support 'ssl'
-        $mail->Port = 587; // 587 for 'tls' 465
+        $mail->Username = 'sachinvvin@gmail.com';
+        $mail->Password = 'oawtojazziscrnrq'; // use app password only
+        $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+        $mail->Port = 587;
 
-        // Email headers
         $mail->setFrom('no-reply@nutrizone.in', 'Nutrizone');
         $mail->addAddress($email);
         $mail->Subject = 'Order Confirmation - Order #' . $order_id;
         $mail->isHTML(true);
 
-        // Email body content
-        $body = "<h2>Thank you for your order!</h2>";
-        $body .= "<p>Your order <strong>#$order_id</strong> has been placed successfully.</p>";
-        $body .= "<h3>Order Summary:</h3>";
-        $body .= "<table border='1' cellpadding='5' cellspacing='0' width='100%'>";
-        $body .= "<tr><th>Product</th><th>Quantity</th><th>Price</th></tr>";
+        $body = "<h2>Thank you for your order!</h2>
+                 <p>Your order <strong>#$order_id</strong> has been placed successfully.</p>
+                 <table border='1' cellpadding='5' cellspacing='0' width='100%'>
+                 <tr><th>Product</th><th>Qty</th><th>Price</th></tr>";
+
         foreach ($cart_items as $item) {
             $body .= "<tr><td>{$item['name']}</td><td>{$item['quantity']}</td><td>₹{$item['price']}</td></tr>";
         }
-        $body .= "</table>";
-        $body .= "<h3>Total: ₹$total</h3>";
-        $body .= "<p>You can download your invoice from your account.</p>";
-        $body .= "<p>Thank you for shopping with us!</p>";
 
+        $body .= "</table><h3>Total: ₹$total</h3><p>We appreciate your business!</p>";
         $mail->Body = $body;
-
-        // Send email
         $mail->send();
-        echo "Order confirmation email sent!";
     } catch (Exception $e) {
-        error_log("Error sending email: " . $mail->ErrorInfo);
-        echo "Email could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        error_log("Email Error: " . $mail->ErrorInfo);
     }
 }
-
 ?>
